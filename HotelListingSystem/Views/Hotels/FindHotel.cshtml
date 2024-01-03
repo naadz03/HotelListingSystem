@@ -1,0 +1,999 @@
+﻿@model List<HotelListingSystem.ViewModel.HotelReservationVM>
+@using HotelListingSystem.Models;
+@{
+    Layout = null;
+    ViewBag.Title = "Find Hotel";
+}
+
+<head>
+    @Html.Partial("_eHead")
+    <style>
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -100px;
+            width: 120%;
+        }
+
+        body {
+            /* background-color: lightgrey;*/
+            color: black;
+        }
+
+        .placeholder {
+            width: 300px;
+            height: 200px;
+            background-color: #ccc;
+            margin: 20px 20px 0 86px;
+        }
+
+        .description {
+            flex: 1;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .image-container {
+            margin-top: 250px;
+            margin-left: 50px;
+            margin-right: 50px;
+            background-color: white;
+            color: black;
+        }
+
+        .image-container {
+            border: solid;
+            border-block-width: 0.5px;
+        }
+
+        .container_s {
+            display: flex;
+            /*    justify-content: space-between;*/
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .left-section img {
+            width: 300px;
+            height: 200px;
+            background-color: #ccc;
+            /*    margin: 20px 20px 0 86px;*/
+        }
+
+        .middle-section p {
+            font-size: 10px;
+            font-weight: 500;
+            margin: 0 0 0 0;
+            color: blue;
+        }
+
+        .right-section p {
+            font-size: 16px;
+            color: #ff9800;
+        }
+
+
+        .middle-section {
+            width: 60%;
+            margin: 0 0 0 10px;
+        }
+
+
+        .results_section {
+            margin: 50px 0 0 0;
+        }
+
+        .f4bd0794db:before {
+            color: var(--bui_color_border_alt);
+            content: "\b7";
+            display: inline-block;
+            font-weight: 600;
+            padding: 0 5px;
+            text-decoration: none;
+            transform: scale(1.4);
+        }
+
+        .cb5ebe3ffb {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .af0214f555 {
+            margin-right: var(--bui_spacing_1x);
+            vertical-align: middle;
+        }
+
+        .b6dc9a9e69 svg {
+            display: inline-block;
+            height: 100%;
+            vertical-align: top;
+            width: auto;
+        }
+
+        svg:not(:root) {
+            overflow-clip-margin: content-box;
+            overflow: hidden;
+        }
+
+        .b6dc9a9e69 {
+            fill: currentcolor;
+            display: inline-block;
+        }
+
+        h1 h2 h3 h4 h5 h6 {
+            font-family: 'Bodoni MT Poster';
+        }
+
+        .middle-section h2 {
+            text-transform: capitalize;
+            font-weight: 600;
+            font-size: 30px;
+        }
+
+        strong {
+            color: black;
+        }
+
+        .room {
+            color: black;
+        }
+
+        h7, h8 {
+            color: #008009;
+        }
+
+        h7 {
+            font-weight: 600;
+        }
+
+        h8 {
+            font-size: 12px;
+        }
+
+        .container_right {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            /* background-color: #f0f0f0;*/
+            /*padding: 20px;*/
+        }
+
+        .rating {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #ffcc00;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            border-radius: 0 0 0 5px;
+            margin: auto;
+        }
+
+        .reviews {
+            text-align: right;
+            margin-right: 35px;
+            line-height: 0px;
+            font-weight: 100;
+            font-size: small;
+            font-style: oblique;
+        }
+
+        .reviews_2 {
+            text-align: right;
+            margin-right: 5px;
+            line-height: 0px;
+            font-weight: 100;
+            font-size: small;
+            font-style: oblique;
+            margin-top: 50px;
+        }
+
+        .reviews_3 {
+            text-align: right;
+            margin-right: 5px;
+            line-height: 0px;
+            font-weight: 100;
+            font-size: small;
+            /*font-style: oblique;*/
+            /*margin-top: 50px;*/
+        }
+
+        .price_placeholder {
+            text-align: right;
+            font-style: normal;
+            font-family: math;
+        }
+
+        .button_see_holtel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: purple;
+            color: white;
+            font-weight: bold;
+            border: 1px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+            float: right;
+        }
+
+            .button_see_holtel::after {
+                content: "\2192";
+                font-size: 20px;
+                margin-left: 10px;
+            }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            /* border: 1px solid #ccc;*/
+        }
+
+            .right-section::before {
+                content: "";
+                display: block;
+                height: 120px; /* set the height of the line to 60px */
+                width: 1px;
+                background-color: #ccc;
+                margin-right: 10px;
+            }
+
+        .results_section {
+            margin-bottom: 20px;
+        }
+
+        .round_corner {
+            border-radius: 30px;
+        }
+        /* Star icon style */
+        .fa-star {
+            color: #f5ce42; /* Default color of stars */
+            font-size: 16px; /* Adjust the size of the stars */
+            margin-right: 3px; /* Reduce spacing between stars */
+        }
+
+            /* Checked (filled) star style */
+            .fa-star.checked {
+                color: #ffbb00; /* Color for filled stars */
+                font-size: 16px; /* Adjust the size of the filled stars */
+                margin-right: 3px; /* Reduce spacing between filled stars */
+            }
+
+        /* Rating and stars container */
+        .rating {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Align stars to the far right */
+            background-color: transparent; /* Make the background transparent */
+        }
+
+        /* Rating value style */
+        .rating-value {
+            font-size: 18px;
+            margin-left: 5px;
+            color: black; /* Set the rating number color to black */
+        }
+
+        /* Style for star icons */
+        .star-icons i {
+            font-size: 16px; /* Adjust the size of the stars */
+            margin-right: 3px; /* Reduce spacing between stars */
+            background-color: transparent; /* Make star icons transparent */
+        }
+
+            /* Style for checked stars */
+            .star-icons i.checked {
+                color: #ffd800; /* Yellow color for checked stars */
+                font-size: 16px; /* Adjust the size of the checked stars */
+                margin-right: 3px; /* Reduce spacing between checked stars */
+            }
+
+            /* Style for unchecked stars */
+            .star-icons i.unchecked {
+                color: darkgrey; /* Color of unchecked stars */
+                font-size: 16px; /* Adjust the size of the unchecked stars */
+                margin-right: 3px; /* Reduce spacing between unchecked stars */
+                outline: 1px solid darkgrey; /* Add an outline to unchecked stars */
+            }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <div class="home">
+        <div class="home_slider_container">
+            <div class="owl-carousel owl-theme home_slider owl-loaded owl-drag">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(-3038px, 0px, 0px); transition: all 0s ease 0s; width: 10635px;">
+                        <div class="owl-item cloned" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>your destination</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item cloned" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>the world</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span><span></span> <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item active" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>your destination</h1>
+                                        <div class="button home_slider_button" id="explore">
+                                            <div class="button_bcg"></div>
+                                            <a href="#explore">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>the world</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>the world</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item cloned" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>the world</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-item cloned" style="width: 1519.2px;">
+                            <div class="owl-item home_slider_item">
+                                <div class="home_slider_background" style="background-image:url(https://preview.colorlib.com/theme/travelix/images/home_slider.jpg)"></div>
+                                <div class="home_slider_content text-center">
+                                    <div class="home_slider_content_inner" data-animation-in="flipInX" data-animation-out="animate-out fadeOut">
+                                        <h1>discover</h1>
+                                        <h1>the world</h1>
+                                        <div class="button home_slider_button">
+                                            <div class="button_bcg"></div>
+                                            <a href="#Intro">
+                                                explore now <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-nav disabled">
+                    <div class="owl-prev">prev</div>
+                    <div class="owl-next">next</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search" id="search">
+        <div class="container fill_height">
+            <div class="row fill_height">
+                <div class="col fill_height">
+                    <div class="search_tabs_container">
+                        <div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                            <div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                                <img src="https://preview.colorlib.com/theme/travelix/images/suitcase.png" alt="">
+                                <span>hotels</span>
+                            </div>
+
+                            @*<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                                    <img src="https://preview.colorlib.com/theme/travelix/images/island.png" alt="">trips
+                                </div>*@
+
+                        </div>
+                    </div>
+                    <div class="search_panel active">
+                        <form method="post" action="/Hotels/FindHotel" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+                            <button class="button search_button" onclick="window.location.href = '~/Reservations/CreateReservation?area'">Reservations</button>
+
+                            <div class="search_item">
+                                <div>Suburb</div>
+                                <select name="Suburb" id="adults_1" class="dropdown_item_select search_input round_corner">
+                                    <option>Select Surburb</option>
+                                    @foreach (var i in ViewBag.City)
+                                    {
+                                        <option value="@i.Text">@i.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="search_item">
+                                <div>City</div>
+                                <select name="City" id="children_1" class="dropdown_item_select search_input round_corner">
+                                    <option>Select City</option>
+                                    @foreach (var i in ViewBag.City)
+                                    {
+                                        <option value="@i.Text">@i.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="search_item">
+                                <div>check in</div>
+                                <input type="date" name="checkin" id="checkin" class="check_in search_input round_corner" value="@ViewBag.CheckInDate">
+                            </div>
+                            <div class="search_item">
+                                <div>check out</div>
+                                <input type="date" name="checkout" id="checkout" class="check_out search_input round_corner" value="@ViewBag.CheckOutDate">
+                            </div>
+
+                            <button type="submit" onclick="reserveRoom(1, 'room 1', 1)" class="button search_button">
+                                search <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+
+                            @*<button type="submit" class="btn-sm btn btn-info">Search</button>*@
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="results_section" id="ThisId">
+        @if (Model != null && Model.Count > 0)
+        {
+            if (ViewBag.City.ToString() != "{System.Web.Mvc.SelectList}")
+            {
+<div class="srearch_result_header container" style="margin-bottom: 20px;">
+    <h2> Search results for: Durban</h2>
+</div>
+            }
+
+
+            foreach (var hotel in Model)
+            {
+    <div class="container_s container">
+        <div class="left-section">
+            <img src="@Url.Action("DownloadHotelFile", "Hotels", new { Id = hotel.HotelId, doc_key_type = "c_hotel_image_c" })" alt="Image description">
+
+            @*<img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Image description">*@
+        </div>
+        <div class="middle-section">
+            @{
+                var db = new ApplicationDbContext();
+                var h = db.Hotels.Find(hotel.HotelId);
+            }
+            @if (!string.IsNullOrEmpty(h.LayoutKeyValue))
+            {
+                switch (h.LayoutKeyValue)
+                {
+                    case "_layout_2":
+                        <h2><a href="~/Hotels/About2?Id=@hotel.HotelId" style="color:darkblue;">@hotel.HotelName : @h.City</a></h2>
+                        break;
+                    default:
+                        <h2><a href="~/Hotels/About?Id=@hotel.HotelId" style="color:darkblue;"> @hotel.HotelName :@h.City</a></h2>
+                        break;
+                }
+            }
+            else
+            {
+                <h2><a href="#" style="color:darkblue;"> @hotel.HotelName : @h.City</a></h2>
+            }
+
+            @if (ViewBag.CheckInDate != null)
+            {
+                <h6><strong>@ViewBag.CheckInDate</strong> - <strong>@ViewBag.CheckOutDate</strong></h6>
+            }
+            <p>@h.StreetNumber @h.StreetName, @h.Suburb, @h.City <span class="f4bd0794db b4273d69aa"><a href="https://www.google.com/maps/search/?api=1&query= @h.StreetNumber @h.StreetName @h.Suburb @h.City">Show Map</a></span></p>
+            <h6><strong>Double Room</strong></h6>
+            <h7 class="room">1 double bed</h7><br />
+
+            <h7>FREE cancellation • No prepayment needed</h7>
+            <br />
+
+            <h8>You can cancel later, so lock in this great price today.</h8>
+
+        </div>
+
+
+
+
+
+        @*<div class="right-section">
+            <div class="container_right">
+                <span class="rating">@(hotel.Rating??0)</span>
+                <h6 style="text-align:right; margin-right:35px;"><strong>Review score</strong></h6>
+                <h6 class="reviews">749 reviews</h6>
+
+                <h6 class="reviews_2">2 Nights, 2 adults</h6>
+                <h3 class="price_placeholder">ZAR @string.Format($"{hotel.PricePerRoom}") </h3>
+                <h6 class="reviews_3">+ ZAR (0) taxes and charges</h6>
+                <button class="button_see_holtel" onclick="reserveRoomConfirmation(@hotel.HotelId, '@hotel.RoomName', @hotel.RoomId, '@hotel.PricePerRoom')">Reserve Room</button>
+            </div>
+        </div>*@
+
+        <div class="right-section">
+            <div class="container_right">
+                <div class="rating text-center">
+                    <span class="star-icons">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star @((i <= HotelListingSystem.Helper.RatingHelper.GetRatingById(new ApplicationDbContext(), hotel.HotelId)) ? "checked" : "unchecked")"></i>
+                        }
+                    </span>
+                    <br>
+                    <span class="rating-value">
+                        @{
+                            double averageRating = HotelListingSystem.Helper.RatingHelper.GetRatingById(new ApplicationDbContext(), hotel.HotelId);
+                            if (averageRating == 0)
+                            {
+                                <text>Not Yet Reviewed</text>
+                            }
+                            else
+                            {
+                                @averageRating
+                            }
+                        }
+                    </span>
+                </div>
+                <br /><br />
+                <style>
+                    .purple-link {
+                        color: purple;
+                        transition: color 0.3s ease;
+                    }
+
+                    .purple-button {
+                        background-color: purple;
+                        color: white;
+                        transition: background-color 0.3s ease;
+                    }
+                </style>
+
+                <script>
+                    function animateButton(buttonId) {
+                        var button = document.getElementById(buttonId);
+                        button.classList.add('purple-button');
+                        setTimeout(function () {
+                            button.classList.remove('purple-button');
+                        }, 500);
+                    }
+                </script>
+
+                <div>
+                    <button id="reserveButton" class="btn btn-custom button_see_hotel mt-3 purple-button" onclick="reserveRoomConfirmation('@hotel.HotelId', '@hotel.RoomName', '@hotel.RoomId', '@hotel.PricePerRoom'); animateButton('reserveButton');">Reserve Room</button>
+                </div>
+
+                <div>
+                    <a href="@Url.Action("StoreHotelReviews", "ReviewRatings", new { hotelId = @hotel.HotelId })" class="btn btn-primary mt-2 purple-link purple-button">View Reviews</a>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div hidden>
+
+                    <div class="col-md-4">
+                        <img src="@Url.Action("DisplayImage", "Hotels", new { hotelId = hotel.HotelId, imageType = 1 })" alt="Hotel Image" height="150px" width="150px" />
+                    </div>
+                    <div class="col-md-7">
+                        <h5>
+                            @hotel.HotelName - @hotel.Suburb, @hotel.City
+                        </h5>
+                        <br />
+                        <label for="NoOfPeople">No Of People:</label>&nbsp;&nbsp;<input type="number" id="NoOfPeople" name="NoOfPeople" class="form-control" />
+                        <br />
+                        <label for="checkin">Checkin:</label>&nbsp;&nbsp;<input type="date" id="checkin" name="checkin" value="@ViewBag.CheckInDate" readonly="readonly" class="form-control" />
+                        <label for="checkout">Checkout:</label>&nbsp;&nbsp;
+                        <input type="date" id="checkout" name="checkout" value="@ViewBag.CheckOutDate" readonly="readonly" class="form-control" />
+                        <br />
+                        <br />
+                        <button value="Reserve" type="button" class="btn btn-primary">Reserve</button>
+                    </div>
+
+                    <hr />
+                    <br />
+                    <br />
+                    <!-- Display other hotel details as needed -->
+
+
+                </div>
+
+            }
+        }
+        else
+        {
+            <div class="srearch_result_header container" style="margin-bottom: 20px;">
+                <h2>No results found.</h2>
+            </div>
+        }
+
+    </div>
+
+
+
+    <main hidden>
+
+        <div class="image-container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="placeholder">
+                        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Image description" width="300" height="200">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="description">
+                        <h2> @*@Html.DisplayFor(model => model.Name).ToString().ToUpperInvariant()*@</h2>
+                        <p>
+                            <stromg>Max-occupancy: </stromg>@*@Html.DisplayFor(model => model.MaxOccupancy)*@<br />
+                            <stromg>Physical Address: </stromg> @*@string.Format($"{Model.StreetNumber} {Model.StreetName} {Model.Suburb}, {Model.City}, {Model.PhysicalAddressCode}")*@<br />
+                        </p>
+                        <p>
+                            @*@Html.ActionLink("Certificate Of Occupancy", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })*@ |
+                            @*@Html.ActionLink("Certificate Of Occupancy", "Index", new { id = Model.Id }, new { @class = "btn btn-primary" })*@
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <p>
+                        @Html.ActionLink("Edit", "Edit"@*, new { id = Model.Id }*@, new { @class = "btn btn-warning" }) |
+                        @*@Html.ActionLink("Back to List", "Index", new { id = Model.Id }, new { @class = "btn btn-success" })*@
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container_body">
+
+            <!-- Search form -->
+            <form method="get" action="/Hotels/Search">
+                @Html.ActionLink("Hotel Reservation", "CreateReservation", "Reservations", new { area = "" }, new { @class = "btn-sm btn btn-primary" }) &nbsp;&nbsp;&nbsp;
+
+                <label for="suburb">Suburb:</label>
+                @Html.DropDownList("Suburb", (SelectList)ViewBag.Suburbs, "Select a suburb")
+
+                @*<input type="text" id="suburb" name="suburb" value="@ViewBag.Suburb" />*@
+                <label for="city">City:</label>
+                @*<input type="text" id="city" name="city" value="@ViewBag.City" />*@
+                @*@Html.DropDownList("City")*@
+                @Html.DropDownList("City", (SelectList)ViewBag.Suburbs, "Select a suburb")
+
+                <label for="checkin">Check-in:</label>
+                <input type="date" id="checkin" name="checkin" value="@ViewBag.CheckInDate" /> <!-- Use ViewBag to store the entered check-in date value -->
+                <label for="checkout">Check-out:</label>
+                <input type="date" id="checkout" name="checkout" value="@ViewBag.CheckOutDate" /> <!-- Use ViewBag to store the entered check-out date value -->
+                <button type="submit" class="btn-sm btn btn-info">Search</button>
+            </form>
+
+            <!-- Display search results -->
+            @if (Model != null && Model.Count > 0)
+            {
+                <h1>Search Results:</h1>
+                foreach (var hotel in Model)
+                {
+                    <div class="col-md-4">
+                        <img src="@Url.Action("DisplayImage", "Hotels", new { hotelId  = hotel.HotelId })" alt="Hotel Image" height="150px" width="150px" />
+                    </div>
+                    <div class="col-md-7">
+                        <h5>
+                            @hotel.HotelName - @hotel.Suburb, @hotel.City
+                        </h5>
+                        <br />
+                        <label for="NoOfPeople">No Of People:</label>&nbsp;&nbsp;<input type="number" id="NoOfPeople" name="NoOfPeople" class="form-control" />
+                        <br />
+                        <label for="checkin">Checkin:</label>&nbsp;&nbsp;<input type="date" id="checkin" name="checkin" value="@ViewBag.CheckInDate" readonly="readonly" class="form-control" />
+                        <label for="checkout">Checkout:</label>&nbsp;&nbsp;
+                        <input type="date" id="checkout" name="checkout" value="@ViewBag.CheckOutDate" readonly="readonly" class="form-control" />
+                        <br />
+                        <br />
+                        <button value="Reserve" type="button" class="btn btn-primary">Reserve</button>
+                    </div>
+
+                    <hr />
+                    <br />
+                    <br />
+                    <!-- Display other hotel details as needed -->
+                }
+            }
+            else
+            {
+                <h1>No results found.</h1>
+            }
+
+        </div>
+    </main>
+
+
+</body>
+
+@Html.Partial("_eFooter")
+
+
+<div hidden>
+
+    <!-- Search form -->
+    <form method="post" action="/Hotels/FindHotel">
+        @*@Html.ActionLink("Hotel Reservation", "CreateReservation", "Reservations", new { area = "" }, new { @class = "btn-sm btn btn-primary" }) &nbsp;&nbsp;&nbsp;*@
+
+        <label for="suburb">Suburb:</label>
+        @Html.DropDownList("Suburb", (SelectList)ViewBag.Suburbs, "Select a suburb")
+
+        @*<input type="text" id="suburb" name="suburb" value="@ViewBag.Suburb" />*@
+        <label for="city">City:</label>
+        @*<input type="text" id="city" name="city" value="@ViewBag.City" />*@
+        @*@Html.DropDownList("City")*@
+        @Html.DropDownList("City", (SelectList)ViewBag.Suburbs, "Select a suburb")
+
+        <label for="checkin">Check-in:</label>
+        <input type="date" id="checkin" name="checkin" value="@ViewBag.CheckInDate" /> <!-- Use ViewBag to store the entered check-in date value -->
+        <label for="checkout">Check-out:</label>
+        <input type="date" id="checkout" name="checkout" value="@ViewBag.CheckOutDate" /> <!-- Use ViewBag to store the entered check-out date value -->
+        <button type="submit" class="btn-sm btn btn-info">Search</button>
+    </form>
+
+    <!-- Display search results -->
+    @if (Model != null && Model.Count > 0)
+    {
+        if (Model.Any(x => x.IsSearchResults == true))
+        {
+            <h1>Search Results:</h1>
+        }
+        else
+        {
+            <h1>Available Rooms</h1>
+        }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Room Name</th>
+                    <th>Suburb</th>
+                    <th>City</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>No. of Rooms</th>
+                    <th>Cost</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in Model)
+                {
+                    <tr>
+                        <td>@room.HotelName</td>
+                        <td>@room.RoomName</td>
+                        <td>@room.Suburb</td>
+                        <td>@room.City</td>
+                        <td>
+                            <input type="date" id="checkInDate_@room.HotelId" class="form-control datepicker" />
+                        </td>
+                        <td>
+                            <input type="date" id="checkOutDate_@room.HotelId" class="form-control datepicker" />
+                        </td>
+                        <td>
+                            <input type="number" id="noOfRooms_@room.HotelId" class="form-control hotelroom_@room.HotelId" min="1" max="@room.MaxOccupancy." value="1" />
+                        </td>
+                        <td>
+                            <input type="text" id="cost_@room.HotelId" class="form-control hotelroom_@room.HotelId" value="@room.PricePerRoom" readonly="readonly" disabled="disabled" />
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-primary" onclick="reserveRoomConfirmation(@room.HotelId, '@room.RoomName', @room.RoomId, '@room.PricePerRoom')">Reserve</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1>No rooms found.</h1>
+    }
+</div>
+
+@section scripts{
+
+}
+<script>
+        // Function to reserve a room with selected check-in and check-out dates and number of rooms
+        function reserveRoomConfirmation(hotelId, roomName, roomId, ppp) {
+            debugger;
+            const chkIndt = '@ViewBag.CheckInDate';
+            const chkOutdt = '@ViewBag.CheckOutDate';
+            var baseRoomQty = $('#noOfRooms_' + hotelId).val();
+            let roomQty = parseInt(baseRoomQty);
+            var cost = roomQty * parseFloat(ppp);
+            var checkInDate = $('#checkInDate_' + roomId).val();
+            var checkOutDate = $('#checkOutDate_' + roomId).val();
+            checkInDate = chkIndt;
+            checkOutDate = chkOutdt;
+            var noOfRooms = $('#noOfRooms_' + roomId).val();
+
+            var url = '@Url.Action("Create", "Reservations")';
+
+            window.location.href = url + "?id=" + hotelId
+            //if (confirm("Are you sure you want to proceed with Reservation for \nRoom: " + roomName +
+            //                                "\nCheck-in Date: " + checkInDate +
+            //                                "\nCheck-out Date: " + checkOutDate +
+            //                                "\nNo. of Rooms: " + noOfRooms + "\nat the cost of " +cost+"?"
+
+            //)) {
+            //    // User clicked "OK"
+            //        var accountNumber = prompt("Please enter your Bank account number:", "");
+            //    var password = prompt("Please enter your Bank account password:", "");
+            //        if (accountNumber != null && password != null) {
+            //            // Perform login action here using accountNumber and password variables
+            //            reserveRoom(hotelId, roomName, roomId);
+            //        } else {
+            //            alert("Reservation cancelled.");
+            //        }
+            //} else {
+            //    // User clicked "Cancel"
+            //    alert("Reservation cancelled.");
+            //}
+        }
+
+    function reserveRoom(hotelId, roomName, roomId) {
+        debugger;
+            const chkIndt = '@ViewBag.CheckInDate';
+            const chkOutdt = '@ViewBag.CheckOutDate';
+            var checkInDate = $('#checkInDate_' + roomId).val();
+            var checkOutDate = $('#checkOutDate_' + roomId).val();
+            var noOfRooms = $('#noOfRooms_' + roomId).val();
+            //checkInDate = chkIndt;
+            //checkOutDate = chkOutdt;
+            debugger;
+            // Perform validation for check-in, check-out dates, and number of rooms
+            if (checkInDate === "" || checkOutDate === "") {
+                alert("Please select check-in and check-out dates.");
+                return;
+            }
+            var roomQty = $('.hotelroom_' + roomId).val();
+            if (noOfRooms < 1 || noOfRooms > roomQty) {
+                alert("Invalid number of rooms. Please select a valid number of rooms.");
+                return;
+            }
+
+            // Perform AJAX call to check room availability
+            $.ajax({
+                url: '@Url.Action("BookReservation", "Reservations")', // Update with your controller and action method names
+                type: 'POST',
+                data: { hotelId: hotelId, checkInDate: checkInDate, checkOutDate: checkOutDate, noOfRooms: noOfRooms, roomId: roomId },
+                success: function (data) {
+                    if (data.success) {
+                        // Room is available, proceed with reservation
+                        // You can implement the reservation logic here
+                        // e.g., send another AJAX request to the server to create a reservation
+                        // with the selected room ID, check-in and check-out dates, number of rooms, etc.
+                        alert("Reservation submitted for Room: " + roomName +
+                            "\nCheck-in Date: " + checkInDate +
+                            "\nCheck-out Date: " + checkOutDate +
+                            "\nNo. of Rooms: " + noOfRooms);
+                    } else {
+                        // Room is not available, show error message
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+                }
+            });
+        }
+
+        // Initialize datepickers
+        //$(function () {
+        //    var currentDate = new Date();
+        //    $('.datepicker').datepicker({
+        //        minDate: currentDate // Restrict check-in date to be on or after the current date
+        //    });
+        //});
+</script>

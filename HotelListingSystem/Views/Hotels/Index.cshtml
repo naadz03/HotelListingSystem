@@ -1,0 +1,324 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Hotel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.css">
+    <link href="https://preview.colorlib.com/theme/travelix/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/responsive.css">
+    <script defer="" referrerpolicy="origin" src="https://preview.colorlib.com/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyVHJhdmVsaXglMjIlMkMlMjJ4JTIyJTNBMC45MzA1Mjc0NDk4Mjk3MzE2JTJDJTIydyUyMiUzQTE1MzYlMkMlMjJoJTIyJTNBODY0JTJDJTIyaiUyMiUzQTQ5MiUyQyUyMmUlMjIlM0ExNTM2JTJDJTIybCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkZ0aGVtZSUyRnRyYXZlbGl4JTJGJTIyJTJDJTIyciUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkYlMjIlMkMlMjJrJTIyJTNBMjQlMkMlMjJuJTIyJTNBJTIyVVRGLTglMjIlMkMlMjJvJTIyJTNBLTEyMCUyQyUyMnElMjIlM0ElNUIlNUQlN0Q="></script>
+    <script nonce="c7fcf528-52c2-46a1-8687-57b3181fb929">
+        (function (w, d) {
+            ! function (a, b, c, d) {
+                a[c] = a[c] || {};
+                a[c].executed = [];
+                a.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                a.zaraz.q = [];
+                a.zaraz._f = function (e) {
+                    return function () {
+                        var f = Array.prototype.slice.call(arguments);
+                        a.zaraz.q.push({
+                            m: e,
+                            a: f
+                        })
+                    }
+                };
+                for (const g of ["track", "set", "debug"]) a.zaraz[g] = a.zaraz._f(g);
+                a.zaraz.init = () => {
+                    var h = b.getElementsByTagName(d)[0],
+                        i = b.createElement(d),
+                        j = b.getElementsByTagName("title")[0];
+                    j && (a[c].t = b.getElementsByTagName("title")[0].text);
+                    a[c].x = Math.random();
+                    a[c].w = a.screen.width;
+                    a[c].h = a.screen.height;
+                    a[c].j = a.innerHeight;
+                    a[c].e = a.innerWidth;
+                    a[c].l = a.location.href;
+                    a[c].r = b.referrer;
+                    a[c].k = a.screen.colorDepth;
+                    a[c].n = b.characterSet;
+                    a[c].o = (new Date).getTimezoneOffset();
+                    if (a.dataLayer)
+                        for (const n of Object.entries(Object.entries(dataLayer).reduce(((o, p) => ({
+                            ...o[1],
+                            ...p[1]
+                        }))))) zaraz.set(n[0], n[1], {
+                            scope: "page"
+                        });
+                    a[c].q = [];
+                    for (; a.zaraz.q.length;) {
+                        const q = a.zaraz.q.shift();
+                        a[c].q.push(q)
+                    }
+                    i.defer = !0;
+                    for (const r of [localStorage, sessionStorage]) Object.keys(r || {}).filter((t => t.startsWith("_zaraz_"))).forEach((s => {
+                        try {
+                            a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s))
+                        } catch {
+                            a[c]["z_" + s.slice(7)] = r.getItem(s)
+                        }
+                    }));
+                    i.referrerPolicy = "origin";
+                    i.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    h.parentNode.insertBefore(i, h)
+                };
+                ["complete", "interactive"].includes(b.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
+    <style>
+        body {
+            background-color: lightgrey;
+            color: black;
+        }
+
+        .PageBody {
+            margin: 200px 0 0 0;
+        }
+
+        .container_body {
+            margin-left: 40px;
+            margin-right: 20px;
+            margin: 200px 0 0 0;
+        }
+
+        .control-label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            color: black;
+        }
+
+        .image-text {
+            margin: 0 0 0 20px;
+            height: 37.6px;
+        }
+
+        hr {
+            width: 70%;
+        }
+
+        .table {
+            width: 90%;
+            margin: 0 0 0 40px;
+        }
+
+        h2 {
+            margin: 0 0 0 40px;
+        }
+
+        p {
+            margin: 0 0 20px 40px;
+        }
+    </style>
+
+
+    @Html.Partial("_eHead")
+</head>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v2b4487d741ca48dcbadcaf954e159fc61680799950996" integrity="sha512-D/jdE0CypeVxFadTejKGTzmwyV10c1pxZk/AqjJuZbaJwGMyNHY3q/mTPWqMUnFACfCTunhZUVcd4cV78dK1pQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;7ba67c59f8dc0392&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2023.3.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/jquery-3.2.1.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/easing/easing.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/popper.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/custom.js"></script>
+
+
+<div style="margin-top:200px;">
+    <h2>Hotels </h2>
+</div>
+<p style="align-items:end">
+    @Html.ActionLink("Create New", "Create", new { id = 1 }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Entertainment", "Index","Event", new { id = 1 }, new { @class = "btn btn-success" })
+</p>
+<table id="table" class="table table-striped" style="width:90%">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.HotelImageName)
+            </th>
+            @*<th>
+                     @Html.DisplayNameFor(model => model.CertificateOfOccupancyDocName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.COADocName)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxOccupancy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreetNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Suburb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhysicalAddressCode)
+            </th>
+            @*<th>
+                    Postal
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+
+                    <img src="@Url.Action("DownloadHotelFile", "Hotels", new { Id = item.Id, doc_key_type = "c_hotel_image_c" })" alt="Hotel Image" style="height: 150px;width: 150px;" />
+                </td>
+                @*<td>
+                        <img src="@Url.Action("DisplayImage", "Hotels", new { hotelId = item.Id, imageType = 2 })" alt="Hotel Image" style="height: 150px;width: 150px;" />
+                    </td>
+                    <td>
+                        <img src="@Url.Action("DisplayImage", "Hotels", new { hotelId = item.Id, imageType = 3 })" alt="Hotel Image" style="height: 150px;width: 150px;" />
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxOccupancy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Suburb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhysicalAddressCode)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.HotelImageFileSize)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.IsVerified)
+                    </td>*@
+            <td>
+
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Verify", "HotelVerification", new { Id = item.Id }, new { @class = "btn btn-danger" })
+
+            </td>
+            <td>
+
+                
+                @*@{
+            if (item.IsVerified == true)
+            {
+                <button type="button" class="btn btn-sm btn-danger" onclick="UnverifyHotel(@item.Id)">
+                    Unverify
+                </button>
+            }
+            else if (item.IsVerified == false)
+            {
+                <button type="button" class="btn btn-sm btn-primary" onclick="VerifyHotel(@item.Id)">
+                    Verify
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-primary" onclick="VerifyHotel(@item.Id)">Verify</button>
+                //Html.ActionLink("Verify", "VerifyHotel", new { id = item.Id }, new { @class = "btn btn-sm btn-info" });
+            }
+        }*@
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+    </tr>
+}
+
+
+    </tbody>
+
+
+</table>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+@Html.Partial("_eFooter")
+
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>
+<script>
+    function VerifyHotel(id) {
+        $.ajax({
+            url: '@Url.Action("VerifyHotel", "Hotels")?id=' + id, // Replace with your controller's action method URL
+            type: 'POST', // Use POST or GET depending on your requirements
+            dataType: 'json', // Set the data type to JSON if needed
+            //data: id,
+            success: function (response) {
+                // Handle success response from the controller
+                // Update UI or perform other actions as needed
+                console.log(response);
+                alert(response.message);
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                // Handle error response from the controller
+                // Display error message or perform other actions as needed
+                console.error(xhr.responseText);
+                alert(xhr.responseText);
+            }
+        });
+    }
+
+    function UnverifyHotel(id) {
+       
+        $.ajax({
+            url: '@Url.Action("UnverifyHotel", "Hotels")?id=' + id, // Replace with your controller's action method URL
+            type: 'POST', // Use POST or GET depending on your requirements
+            dataType: 'json', // Set the data type to JSON if needed
+            //data: id,
+            success: function (response) {
+                // Handle success response from the controller
+                // Update UI or perform other actions as needed
+                console.log(response);
+                alert(response.message);
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                // Handle error response from the controller
+                // Display error message or perform other actions as needed
+                console.error(xhr.responseText);
+                alert(xhr.responseText);
+            }
+        });
+    }
+</script>
+

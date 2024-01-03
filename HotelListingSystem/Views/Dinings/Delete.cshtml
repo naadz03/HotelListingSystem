@@ -1,0 +1,101 @@
+﻿@model HotelListingSystem.Models.Dining
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+    <style>
+        hr {
+            width: 30%;
+        }
+    </style>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <h4>Dining</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DiningTableTypes.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DiningTableTypes.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MealTypes.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MealTypes.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DiningTableTypeId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DiningTableTypeId)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StartTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.EndTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NoOfTables)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NoOfTables)
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color back_btn">
+                        <input type="submit" value="Delete" class="btn btn-danger" /> |
+                        @Html.ActionLink("Back to List", "Index", new { id = 0 }, new { @class = "btn btn-primary " })
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
+@Html.Partial("_eFooter")

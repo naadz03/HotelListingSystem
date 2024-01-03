@@ -1,0 +1,339 @@
+﻿@model HotelListingSystem.Models.Reservation
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update Reservation</title>
+    @Html.Partial("_eHead")
+    <style>
+        .c_half_input {
+            width: 177px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.HotelId)
+        <div class="form-horizontal">
+            <h1 class="col-md-offset-2">Update Reservation</h1>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Personal Details</h5>
+            <hr class="col-md-offset-2" />
+            <div class="form-group">
+                @Html.LabelFor(model => model.HotelUser, "Reservation By User", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.HotelUser.FullName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.HotelUser, "Identification No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.HotelUser.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.HotelUser, "Mobile No.", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.HotelUser.MobileNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+
+                @Html.LabelFor(model => model.HotelUser, "Email Address", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.HotelUser.EmailAddress, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="submit" value="Send Email" class="btn btn-sm btn-success" />
+                    <input type="submit" value="View Profile" class="btn btn-sm btn-secondary" />
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Reservation Information</h5>
+            <hr class="col-md-offset-2" />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Hotel.Name, "Reserved Hotel", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Hotel.Name, new { htmlAttributes = new { @class = "form-control", @required = "required", @disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.Hotel.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CheckInDate, "Check-In Date", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.CheckInDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @required = "required", @Id = "CheckInId" } })
+                    @Html.ValidationMessageFor(model => model.CheckInDate, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.CheckOutDate, "Check-Out Date", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.CheckOutDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @required = "required", @Id = "CheckOutId" } })
+                    @Html.ValidationMessageFor(model => model.CheckOutDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoomId, "Room Type", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.DropDownListFor(model => model.RoomId, (SelectList)ViewBag.ThisHotelRooms, htmlAttributes: new { @class = "form-control", @disabled = "disabled", @Id = "roomsId" })
+                    @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.NoOfRooms, "Number Of Room/s", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.NoOfRooms, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "50", @required = "required", @Id="noOfroomsId" } })
+                    @Html.ValidationMessageFor(model => model.NoOfRooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TotalCost, "Room Number", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.CheckInRoom.RooomNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.TotalCost, "Total Cost", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.TotalFees, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Hotel Add-Ons Details</h5>
+            <hr class="col-md-offset-2" />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Hotel.Name, "Breakfast Menu", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @foreach (var breakfast in Model.breakfastmeals)
+                    {
+                        var Ischecked = (Model.Addons != null && Model.Addons.AddOns.Contains(breakfast.Id.ToString())) ? true : false;
+                        <input type="checkbox" value="@breakfast.Id" name="selectedMeals" checked="@Ischecked" onchange="ChangeMenues('@breakfast.CostPerPerson', this.checked)" /> @Html.Raw($"{breakfast.Name} - {breakfast.CostPerPerson.ToString("C")}") <br />
+                    }
+                </div>
+                @Html.LabelFor(model => model.Hotel.Name, "Breakfast Menu", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @foreach (var lunch in Model.lunchmeals)
+                    {
+                        var Ischecked = (Model.Addons != null && Model.Addons.AddOns.Contains(lunch.Id.ToString())) ? true : false;
+                        <input type="checkbox" value="@lunch.Id" name="selectedMeals" checked="@Ischecked" onchange="ChangeMenues('@lunch.CostPerPerson', this.checked)" /> @Html.Raw($"{lunch.Name} - {lunch.CostPerPerson.ToString("C")}") <br />
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-1" style="margin-left:55px;">
+                </div>
+                @Html.LabelFor(model => model.TotalCost, "Total Cost", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.AddOnsCost, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Id = "addonscostId" } })
+                    @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    @if (!Model.PaymentApproved && !Model.Cancelled)
+                    {
+                        <input type="button" value="Update Details" onclick="UpdateBookedReservation('@Model.Id')"  class="btn btn-sm btn-outline-warning" />
+                        <input type="button" value="Cancel Reservation" onclick="CancelBookedReservation('@Model.Id')" class="btn btn-sm btn-outline-danger" />
+                    }
+                    <input type="button" value="Back To List" onclick="window.history.back()" class="btn btn-sm btn-outline-info" />
+                </div>
+            </div>
+        </div>
+        }
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")
+<script>
+    function ChangeMenues(price, status) {
+        debugger;
+        let totalCost = parseFloat(document.getElementById('addonscostId').value);
+        if (status == true) {
+            var local = parseInt(totalCost) + parseInt(price);
+            $("#addonscostId").val(local);
+        } else {
+            var local = parseInt(totalCost) - parseInt(price);
+            $("#addonscostId").val(parseInt(local));
+        }
+    }
+
+     function UpdateBookedReservation(id) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                debugger;
+                let CheckeIndate = document.getElementById('CheckInId').value;
+                let CheckeOutdate = document.getElementById('CheckOutId').value;
+                let roomId = document.getElementById('roomsId').value;
+                let amount = document.getElementById('addonscostId').value;
+                let Rooms = document.getElementById('noOfroomsId').value;
+                var selectedCheckboxes = document.querySelectorAll('input[name="selectedMeals"]:checked');
+                var selectedValues = [];
+                selectedCheckboxes.forEach(function (checkbox) {
+                    selectedValues.push(checkbox.value);
+                });
+                var AddonsChecked = selectedValues;
+
+                $.ajax({
+                    url: '@Url.Action("UpdateReservationByRecept", "DeskService")',
+                    type: 'POST',
+                    data: { id: id, CheckIn: CheckeIndate, ChexkOut: CheckeOutdate, roomId: roomId, selectedAddons: AddonsChecked, amount: amount, rooms: Rooms},
+                    success: function (data) {
+                        if (data) {
+                            //Swal.fire('Confirmed!', 'The reservation has been cancelled successfully.', 'success');
+                            Swal.fire('Confirmed!', 'The reservation has been updated successfully.', 'success').then(() => {
+                                // Reload the window
+                                location.reload();
+                            });
+                        } else {
+                            //Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error');
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                // Reload the window
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+                /*Swal.fire('Confirmed!', 'Your action has been processed.', 'success');*/
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // The user clicked the "No" button or outside the modal
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+    function CancelBookedReservation(id) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("CacelBookedReservation", "DeskService")',
+                    type: 'POST',
+                    data: { id: id},
+                    success: function (data) {
+                        if (data) {
+                            //Swal.fire('Confirmed!', 'The reservation has been cancelled successfully.', 'success');
+                            Swal.fire('Confirmed!', 'The reservation has been cancelled successfully.', 'success').then(() => {
+                                // Reload the window
+                                location.reload();
+                            });
+                        } else {
+                            //Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error');
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                // Reload the window
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+                /*Swal.fire('Confirmed!', 'Your action has been processed.', 'success');*/
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // The user clicked the "No" button or outside the modal
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+
+
+
+    function formatdate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var day = date.getDate().toString().padStart(2, "0");
+        var formattedDate = year + "-" + month + "-" + day;
+        return formattedDate;
+    }
+
+    $(document).ready(function () {
+        document.getElementById("CheckOutId").value = formatdate(new Date('@Model.CheckOutDate'));
+        document.getElementById("CheckInId").value = formatdate(new Date('@Model.CheckInDate'));
+    });
+
+
+    $("#RoomId").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+    $("#NoOfRooms").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+</script>
+

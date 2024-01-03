@@ -1,0 +1,149 @@
+﻿@model HotelListingSystem.Models.Dining
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Dining</title>
+</head>
+@{
+    Layout = null;
+}
+<head>
+    <style>
+        hr {
+            width:30%;
+        }
+    </style>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.8.1/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.8.1/jquery.timepicker.min.css">
+
+    @*<script src="~/Scripts/jquery-3.4.1.js"></script>
+        <link href="~/Content/JqueryUI.css" rel="stylesheet" />
+        <link href="~/Content/TimePickerAddOn.css" rel="stylesheet" />*@
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+
+
+
+    <main>
+        <div class="container_body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4>Create Dining</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MealTypeId, "Meal Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.DropDownList("MealTypeId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MealTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DiningTableTypeId, "Dining Table Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.DropDownList("DiningTableTypeId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DiningTableTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.StartTime, new { id = "timerValId", @readonly = "readonly", placeholder = Html.DisplayNameFor(m => m.StartTime), @class = "form-control" })
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StartTime, "Start Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+
+                            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EndTime, "End Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NoOfTables, "Number of Tables", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.NoOfTables, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = 50 } })
+                            @Html.ValidationMessageFor(model => model.NoOfTables, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CostPerPerson, "Cost Per Person", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.EditorFor(model => model.CostPerPerson, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = 50, @Name= "CostPerPerson" } })
+                            @Html.ValidationMessageFor(model => model.CostPerPerson, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+        </div>
+    </main>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index",new { id=0}, new { @class = "btn btn-primary back_btn" })
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#EndTime').timepicker({
+            template: 'dropdown',
+            minuteStep: 1,
+            secondStep: 1,
+            showMeridian: true,
+            //defaultTime: timerVal
+        });
+        $('#StartTime').timepicker({
+            template: 'dropdown',
+            minuteStep: 1,
+            secondStep: 1,
+            showMeridian: true,
+            class: 'form-control'
+        });
+
+    });
+    //$('#StartTime').datetimepicker({
+    //    format: 'HH:mm',
+    //    keepInvalid: true,
+    //    useCurrent: true
+    //});
+</script>
+@Html.Partial("_eFooter")

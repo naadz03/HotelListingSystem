@@ -1,0 +1,68 @@
+﻿@model IEnumerable<HotelListingSystem.ViewModel.UserVM>
+@{
+    int count = 0;
+}
+<h4>Add User to Receptionist</h4>
+<br />
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.DropDownList("HotelId", null, htmlAttributes: new { @class = "form-control", id="hotelDDl" })
+    </div>
+</div>
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="AddUser('@user.Email','@user.FullName')">Add/Update Receptionist</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No users found.</p>
+}
+
+<script>
+    function AddUser(userid, name) {
+        var hotel = $('#hotelDDl').val();
+        $.ajax({
+                url: '@Url.Action("AddUserToReceptionist", "Account")', // Update with your controller and action method names
+                type: 'POST',
+            data: { userId: userid, hotelId: hotel },
+                success: function (data) {
+                    if (data.success) {
+                        // Room is available, proceed with reservation
+                        // You can implement the reservation logic here
+                        // e.g., send another AJAX request to the server to create a reservation
+                        // with the selected room ID, check-in and check-out dates, number of rooms, etc.
+                        alert(name + " added to Receptionist role successfully");
+                    } else {
+                        // Room is not available, show error message
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+            }
+        });
+    }
+</script>

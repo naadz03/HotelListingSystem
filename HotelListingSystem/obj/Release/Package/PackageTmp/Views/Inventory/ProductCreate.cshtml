@@ -1,0 +1,152 @@
+﻿@model HotelListingSystem.Models.Product
+
+@{
+    ViewBag.Title = "Product";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>
+            Add Product <span class="fa fa-pencil" style="margin:3px;">
+            </span>
+        </h1>
+        <hr style="width:100%" />
+        <div class="product-list">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "product description" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control", @placeholder = "tags must be separated by a \"|\"" } })
+                            @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @placeholder = "description" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="add-to-cart btn btn-sm btn-outline-primary" style="margin-left: 10px; margin-top: 10px;">Save Changes<span class="fa fa-edit" style="margin:3px;"></span></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div>
+            <button type="button" onclick="window.location.href='/Inventory/'" class="add-to-cart btn btn-sm btn-outline-success" style="margin-left:10px;margin-top:10px;">
+                <span class="fa fa-arrow-left" style="margin:3px;">
+                </span>
+                Back to List
+            </button>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")

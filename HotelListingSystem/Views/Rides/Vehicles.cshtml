@@ -1,0 +1,110 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Vehicle>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <p>
+                @Html.ActionLink("Create New", "AddVehicle", null, htmlAttributes: new { @class = "btn btn-sm btn-primary" }) &nbsp;&nbsp;
+                @Html.ActionLink("Rides", "Index", null, htmlAttributes: new { @class = "btn btn-sm btn-primary" }) &nbsp;&nbsp;
+
+            </p>
+            <table class="table">
+                <tr>
+                    <th>Registration No</th>
+                    <th>Maker</th>
+                    <th>Color</th>
+                    <th>Added By User</th>
+                    <th>For Hotel</th>
+                    <th>Is Active</th>
+                    <th>Is Deleted</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.RegNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Maker)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Color)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AddedByUser.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ForHotel.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsDeleted)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditVehicle", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                            <input type="button" value="Activate" onclick="ActivateFun('@item.Id')" class="btn btn-primary"/> |
+                            <input type="button" value="Deactivate" onclick="DeactivateFun('@item.Id')" class = "btn btn-danger" />
+                        </td>
+                    </tr>
+                }
+                <tfoot>
+                    <tr>
+                        <th>Registration No</th>
+                        <th>Maker</th>
+                        <th>Color</th>
+                        <th>Added By User</th>
+                        <th>For Hotel</th>
+                        <th>Is Active</th>
+                        <th>Is Deleted</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")
+
+<script type="text/javascript">
+
+    function DeactivateFun(val) {
+        $.ajax({
+            url: '@Url.Action("DeactivateVehicle", "Rides")',
+            type: 'POST',
+            data: { Id: val },
+            success: function (data) {
+                if (data)
+                    alert("success")
+                else
+                    alert("!successful")
+                location.reload();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error(errorThrown);
+            }
+        })
+    }
+    function ActivateFun(val) {
+        $.ajax({
+            url: '@Url.Action("ActivateVehicle", "Rides")',
+            type: 'POST',
+            data: { Id: val },
+            success: function (data) {
+                if (data)
+                    alert("success")
+                else
+                    alert("!successful")
+                location.reload();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error(errorThrown);
+            }
+        })
+    }
+</script>

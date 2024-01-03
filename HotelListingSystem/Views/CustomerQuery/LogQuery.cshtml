@@ -1,0 +1,151 @@
+﻿@model HotelListingSystem.Models.CustomerQuery
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update Reservation</title>
+    @Html.Partial("_eHead")
+    <style>
+        .c_half_input {
+            width: 177px;
+        }
+
+        .image-text {
+            margin: 0 0 0 20px;
+            height: 37.6px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        @using (Html.BeginForm("LogQuery", "CustomerQuery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="text" hidden id="hiddenChecklists" name="hiddenChecklists" />
+            <div class="form-horizontal">
+                <h1 class="col-md-offset-2">Customer Query Log</h1>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                <h5 class="col-md-offset-2">Query Detals</h5>
+                <hr class="col-md-offset-2" />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Reservation, "Reservation", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @*@Html.DropDownList("ReservationId", (SelectList)ViewBag.Reservations, "---Select Option---", new { htmlAttributes = new { @class = "form-control", @required = "required" } })*@
+                        @Html.DropDownList("Reservations", null, "-- Select Option --", htmlAttributes: new { @class = "form-control", @Id = "ApprovalStatus", @Name = "ReservationId", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.ReservationId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Supporting Document", new { @class = "control-label col-md-2" })
+                    <div class="col-md-7">
+                        <input type="file" name="file" id="imageUpload" class="control-label" accept=".png, .jpg, .jpeg, .pdf" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QueryDescription, "Query Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @*@Html.TextAreaFor(model => model.QueryDescription, new { htmlAttributes = new { @class = "form-control", @required = "required" } })*@
+                        @Html.TextArea("QueryDescription", new { @class = "form-control", @Id = "Comments", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.QueryDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit Query" class="btn btn-warning" />
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")
+
+<script typeof="text/javascript">
+    var docChecklists = [];
+    const allowedExtensions = [".png", ".jpg", ".jpeg", ".pdf"];
+
+    $(document).ready(function () {
+        ////Proof of address
+        $('#imageUpload').on('change', function (event) {
+
+            var hasInvalidFiles = false;
+            var hasOverSizeFile = false;
+
+            var numFiles = this.files.length;
+            const fileSize = this.files[0].size / 1024 / 1024; // in MiB
+
+            if (fileSize > 2) {
+                /*alert('File size exceeds 2 MiB');*/
+                hasOverSizeFile = true;
+                $(this.files).val(''); //for clearing with Jquery
+            }
+            else {
+                // Check that the file extension is supported.
+                // If not, clear the input.
+                for (var i = 0; i < this.files.length; i++) {
+                    var file = this.files[i];
+
+                    for (i = 0; i < allowedExtensions.length; i++) {
+                        if (!file.name.endsWith(allowedExtensions[i])) {
+                            hasInvalidFiles = true;
+                        }
+                        else {
+                            hasInvalidFiles = false;
+                            docChecklists.push(file.name);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //// Address Doc Validation
+            if (hasOverSizeFile) {
+                $('#upload-proof-info').val("");
+                document.getElementById("imageError").style.display = 'block';
+                document.getElementById("imageError").innerHTML = "File size exceeds 2 MB.";
+            }
+            else if (hasInvalidFiles) {
+                $('#upload-proof-info').val("");
+                document.getElementById("imageError").style.display = 'block';
+                document.getElementById("imageError").innerHTML = "Unsupported file selected.";
+            }
+            else {
+                if (numFiles > 1) {
+                    $('#upload-image-info').val(numFiles + " files selected");
+                }
+                else {
+                    $('#upload-image-info').val($(this).val());
+                }
+
+                var ProofFiles = $('#upload-image-info').val();
+                if (ProofFiles != null && ProofFiles != "") {
+                    document.getElementById("imageError").style.display = 'none';
+                }
+            }
+        });
+    });
+    function FormValidation() {
+        var checkLists = JSON.stringify(docChecklists);
+        $('#hiddenChecklists').val(checkLists);
+        $('#create-form').submit();
+    }
+</script>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<HotelListingSystem.Models.ReviewRating>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Hotel.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Review)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+
+        <th>
+            Average Rating
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var hotelGroup in Model.GroupBy(item => item.Hotel.Name))
+    {
+        var averageRating = hotelGroup.Average(item => item.Rating);
+        <tr>
+            <td>
+                @hotelGroup.Key
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @string.Format("{0:F2}", averageRating)
+            </td>
+            <td></td>
+        </tr>
+
+        foreach (var item in hotelGroup)
+        {
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+
+                <td></td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+
+
+                </td>
+            </tr>
+        }
+    }
+</table>

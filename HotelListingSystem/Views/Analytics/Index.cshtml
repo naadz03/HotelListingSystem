@@ -1,0 +1,923 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Tour360Request>
+
+@{
+    ViewBag.Title = "Analytics";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="~/Content/Analytics/assets/css/app.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="~/Content/Analytics/assets/css/style.css">
+    <link rel="stylesheet" href="~/Content/Analytics/assets/css/components.css">
+    <!-- Custom style CSS -->
+    <link rel="stylesheet" href="~/Content/Analytics/assets/css/custom.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        .main-content {
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 0px;
+            width: 100%;
+            position: relative;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="padding-left: 30px; padding-right: 30px; padding-top: 93px; width: 100%; position: relative;">
+        <div class="main-content">
+            <section class="section">
+                <div class="section-body">
+                    <div class="row clearfix">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>System Visitors</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6" hidden>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Bar Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Reviews / Rating</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart7"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" hidden>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Line Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Line Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix"hidden>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Line &amp; Column Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Aria Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart6"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" hidden>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Pie Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart7"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Radar Chart</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="recent-report__chart">
+                                        <div id="chart8"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header justify-content-between d-flex align-items-center">
+                                    <h4 class="card-title">Bookings per month</h4>
+                                </div><!-- end card header -->
+                                <div class="card-body">
+                                    <div id="column_chart" class="apex-charts" dir="ltr"></div>
+                                </div>
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header justify-content-between d-flex align-items-center">
+                                    <h4 class="card-title">Average Customer Visits Per Hotel</h4>
+                                </div><!-- end card header -->
+                                <div class="card-body">
+                                    <div id="column_rotated_labels" class="apex-charts" dir="ltr"></div>
+                                </div>
+                            </div><!--end card-->
+                        </div><!--end col-->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script src="~/Content/Analytics/assets/js/app.min.js"></script>
+<script src="~/Content/Analytics/assets/bundles/apexcharts/apexcharts.min.js"></script>
+@*<script src="~/Content/Analytics/assets/js/page/chart-apexcharts.js"></script>*@
+<script src="~/Content/Analytics/assets/js/scripts.js"></script>
+<script src="~/Content/Analytics/assets/js/custom.js"></script>
+<script>
+    $(function () {
+        chart1();
+        chart7();
+    });
+    function chart1() {
+        var options = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    endingShape: 'rounded',
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            series: [{
+                name: 'System',
+                data: [15, 22, 17, 27, 28, 36, 17]
+            }, {
+                name: 'Unregistered',
+                data: [32, 41, 23, 38, 26, 47, 19]
+            }],
+            xaxis: {
+                categories: ['Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue'],
+                labels: {
+                    style: {
+                        colors: '#8e8da4',
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'System Visitors'
+                },
+                labels: {
+                    style: {
+                        color: '#8e8da4',
+                    }
+                }
+            },
+            fill: {
+                opacity: 1
+
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " users"
+                    }
+                }
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#chart1"),
+            options
+        );
+
+        chart.render();
+
+
+    }
+    function chart7() {
+        var data;
+
+    var options = {
+        chart: {
+            width: 360,
+            type: 'pie',
+        },
+        labels: ['Blue Water', 'Road Lodge'],
+        series: [70, 10],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    }
+
+    var chart = new ApexCharts(
+        document.querySelector("#chart7"),
+        options
+    );
+
+    chart.render();
+    }
+
+
+    var options = {
+        chart: {
+            height: 350,
+            type: "bar",
+            toolbar: {
+                show: !1
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: !1,
+                columnWidth: "45%",
+                endingShape: "rounded"
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            show: !0,
+            width: 2,
+            colors: ["transparent"]
+        },
+        series: [{
+            name: "Royal Hotel",
+            data: [60, 55, 70, 55, 75, 60, 65, 70, 75]
+        }, {
+            name: "Blue Water",
+            data: [80, 90, 100, 110, 95, 115, 105, 120, 100]
+        }, {
+            name: "Protea Hotel",
+            data: [40, 35, 45, 40, 50, 45, 50, 55, 45]
+        }, {
+            name: "Durban Manor Hotel",
+            data: [38, 42, 38, 26, 48, 50, 52, 54, 43]
+        }, {
+            name: "Coastlands",
+            data: [45, 50, 52, 46, 55, 53, 58, 60, 57]
+        }, {
+            name: "Radisson",
+            data: [42, 45, 47, 45, 48, 50, 55, 52, 50]
+        }, {
+            name: "City Lodge",
+            data: [38, 40, 42, 38, 44, 45, 46, 48, 47]
+        }, {
+            name: "Road Lodge",
+            data: [37, 38, 39, 37, 41, 42, 43, 44, 43]
+        }],
+        colors: ["#f1734f", "#038edc", "#51d28c", "#007bff", "#6610f2", "#e83e8c", "#fd7e14", "#28a745","#17a2b8"],
+        xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]
+        },
+        yaxis: {
+            title: {
+                text: "hotel bookings per month"
+            }
+        },
+        grid: {
+            borderColor: "#f1f1f1"
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (e) {
+                    return e + " bookings"
+                }
+            }
+        }
+    },
+        chart = new ApexCharts(document.querySelector("#column_chart"), options),
+        options = (chart.render(), {
+            chart: {
+                height: 350,
+                type: "bar",
+                toolbar: {
+                    show: !1
+                }
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        position: "top"
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: !0,
+                formatter: function (e) {
+                    return e + "%"
+                },
+                offsetY: -20,
+                style: {
+                    fontSize: "12px",
+                    colors: ["#adb5bd"]
+                }
+            },
+            series: [{
+                name: "Inflation",
+                data: [2.5, 3.2, 5, 10.1, 4.2, 3.8, 3, 2.4, 4, 1.2, 3.5, .8]
+            }],
+            colors: ["#038edc"],
+            grid: {
+                borderColor: "#f1f1f1"
+            },
+            xaxis: {
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                position: "top",
+                labels: {
+                    offsetY: -18
+                },
+                axisBorder: {
+                    show: !1
+                },
+                axisTicks: {
+                    show: !1
+                },
+                crosshairs: {
+                    fill: {
+                        type: "gradient",
+                        gradient: {
+                            colorFrom: "#D8E3F0",
+                            colorTo: "#BED1E6",
+                            stops: [0, 100],
+                            opacityFrom: .4,
+                            opacityTo: .5
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: !0,
+                    offsetY: -35
+                }
+            },
+            fill: {
+                gradient: {
+                    shade: "light",
+                    type: "horizontal",
+                    shadeIntensity: .25,
+                    gradientToColors: void 0,
+                    inverseColors: !0,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [50, 0, 100, 100]
+                }
+            },
+            yaxis: {
+                axisBorder: {
+                    show: !1
+                },
+                axisTicks: {
+                    show: !1
+                },
+                labels: {
+                    show: !1,
+                    formatter: function (e) {
+                        return e + "%"
+                    }
+                }
+            },
+            title: {
+                text: "Monthly Inflation in Argentina, 2002",
+                floating: !0,
+                offsetY: 320,
+                align: "center",
+                style: {
+                    fontWeight: 500
+                }
+            }
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_chart_datalabel"), options)).render(), {
+            series: [{
+                name: "PRODUCT A",
+                data: [44, 55, 41, 67, 22, 43]
+            }, {
+                name: "PRODUCT B",
+                data: [13, 23, 20, 8, 13, 27]
+            }, {
+                name: "PRODUCT C",
+                data: [11, 17, 15, 15, 21, 14]
+            }, {
+                name: "PRODUCT D",
+                data: [21, 7, 25, 13, 22, 8]
+            }],
+            chart: {
+                type: "bar",
+                height: 350,
+                stacked: !0,
+                toolbar: {
+                    show: !1
+                },
+                zoom: {
+                    enabled: !0
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: "bottom",
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            plotOptions: {
+                bar: {
+                    horizontal: !1,
+                    borderRadius: 10
+                }
+            },
+            xaxis: {
+                type: "datetime",
+                categories: ["01/01/2011 GMT", "01/02/2011 GMT", "01/03/2011 GMT", "01/04/2011 GMT", "01/05/2011 GMT", "01/06/2011 GMT"]
+            },
+            legend: {
+                position: "right",
+                offsetY: 40
+            },
+            fill: {
+                opacity: 1
+            },
+            colors: ["#038edc", "#51d28c", "#f7cc53", "#f34e4e"]
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_stacked"), options)).render(), {
+            series: [{
+                name: "PRODUCT A",
+                data: [44, 55, 41, 67, 22, 43, 21, 49]
+            }, {
+                name: "PRODUCT B",
+                data: [13, 23, 20, 8, 13, 27, 33, 12]
+            }, {
+                name: "PRODUCT C",
+                data: [11, 17, 15, 15, 21, 14, 15, 13]
+            }],
+            chart: {
+                type: "bar",
+                height: 350,
+                stacked: !0,
+                stackType: "100%",
+                toolbar: {
+                    show: !1
+                }
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: "bottom",
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            xaxis: {
+                categories: ["2011 Q1", "2011 Q2", "2011 Q3", "2011 Q4", "2012 Q1", "2012 Q2", "2012 Q3", "2012 Q4"]
+            },
+            fill: {
+                opacity: 1
+            },
+            legend: {
+                position: "right",
+                offsetX: 0,
+                offsetY: 50
+            },
+            colors: ["#038edc", "#51d28c", "#f7cc53"]
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_stacked_chart"), options)).render(), {
+            series: [{
+                name: "Actual",
+                data: [{
+                    x: "2011",
+                    y: 1292,
+                    goals: [{
+                        name: "Expected",
+                        value: 1400,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2012",
+                    y: 4432,
+                    goals: [{
+                        name: "Expected",
+                        value: 5400,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2013",
+                    y: 5423,
+                    goals: [{
+                        name: "Expected",
+                        value: 5200,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2014",
+                    y: 6653,
+                    goals: [{
+                        name: "Expected",
+                        value: 6500,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2015",
+                    y: 8133,
+                    goals: [{
+                        name: "Expected",
+                        value: 6600,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2016",
+                    y: 7132,
+                    goals: [{
+                        name: "Expected",
+                        value: 7500,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2017",
+                    y: 7332,
+                    goals: [{
+                        name: "Expected",
+                        value: 8700,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }, {
+                    x: "2018",
+                    y: 6553,
+                    goals: [{
+                        name: "Expected",
+                        value: 7300,
+                        strokeWidth: 5,
+                        strokeColor: "#775DD0"
+                    }]
+                }]
+            }],
+            chart: {
+                height: 350,
+                type: "bar",
+                toolbar: {
+                    show: !1
+                }
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: "30%"
+                }
+            },
+            colors: ["#51d28c"],
+            dataLabels: {
+                enabled: !1
+            },
+            legend: {
+                show: !0,
+                showForSingleSeries: !0,
+                customLegendItems: ["Actual", "Expected"],
+                markers: {
+                    fillColors: ["#51d28c", "#564ab1"]
+                }
+            }
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_markers"), options)).render(), {
+            series: [{
+                name: "customer visits",
+                data: [131, 201, 91, 89, 108, 99, 86 ,80  ]
+            }],
+            annotations: {
+                points: [{
+                    x: "Blue Water",
+                    seriesIndex: 0,
+                    label: {
+                        borderColor: "#775DD0",
+                        offsetY: 0,
+                        style: {
+                            color: "#fff",
+                            background: "#775DD0"
+                        },
+                        text: "Blue Water"
+                    }
+                }]
+            },
+            chart: {
+                height: 350,
+                type: "bar",
+                toolbar: {
+                    show: !1
+                }
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 10,
+                    columnWidth: "50%"
+                }
+            },
+            dataLabels: {
+                enabled: !1
+            },
+            stroke: {
+                width: 2
+            },
+            xaxis: {
+                labels: {
+                    rotate: -45
+                },
+                categories: ["Royal Hotel", "Blue Water", "Protea Hotel", "Durban Manor Hotel", "Coastlands","Radisson", "City Lodge", "Road Lodge"],
+                tickPlacement: "on"
+            },
+            yaxis: {
+                title: {
+                    text: "customer visits"
+                }
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "light",
+                    type: "horizontal",
+                    shadeIntensity: .25,
+                    gradientToColors: void 0,
+                    inverseColors: !0,
+                    opacityFrom: .85,
+                    opacityTo: .85,
+                    stops: [50, 0, 100]
+                }
+            }
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_rotated_labels"), options)).render(), {
+            series: [{
+                name: "Cash Flow",
+                data: [1.45, 5.42, 5.9, -.42, -12.6, -18.1, -18.2, -14.16, -11.1, -6.09, .34, 3.88, 13.07, 5.8, 2, 7.37, 8.1, 13.57, 15.75, 17.1, 19.8, -27.03, -54.4, -47.2, -43.3, -18.6, -48.6, -41.1, -39.6, -37.6, -29.4, -21.4, -2.4]
+            }],
+            chart: {
+                type: "bar",
+                height: 350,
+                toolbar: {
+                    show: !1
+                }
+            },
+            plotOptions: {
+                bar: {
+                    colors: {
+                        ranges: [{
+                            from: -100,
+                            to: -46,
+                            color: "#f1734f"
+                        }, {
+                            from: -45,
+                            to: 0,
+                            color: "#f7cc53"
+                        }]
+                    },
+                    columnWidth: "80%"
+                }
+            },
+            dataLabels: {
+                enabled: !1
+            },
+            yaxis: {
+                title: {
+                    text: "Growth"
+                },
+                labels: {
+                    formatter: function (e) {
+                        return e.toFixed(0) + "%"
+                    }
+                }
+            },
+            xaxis: {
+                type: "datetime",
+                categories: ["2011-01-01", "2011-02-01", "2011-03-01", "2011-04-01", "2011-05-01", "2011-06-01", "2011-07-01", "2011-08-01", "2011-09-01", "2011-10-01", "2011-11-01", "2011-12-01", "2012-01-01", "2012-02-01", "2012-03-01", "2012-04-01", "2012-05-01", "2012-06-01", "2012-07-01", "2012-08-01", "2012-09-01", "2012-10-01", "2012-11-01", "2012-12-01", "2013-01-01", "2013-02-01", "2013-03-01", "2013-04-01", "2013-05-01", "2013-06-01", "2013-07-01", "2013-08-01", "2013-09-01"],
+                labels: {
+                    rotate: -90
+                }
+            }
+        }),
+        options = ((chart = new ApexCharts(document.querySelector("#column_nagetive_values"), options)).render(), {
+            series: [{
+                data: [{
+                    x: "Team A",
+                    y: [1, 5]
+                }, {
+                    x: "Team B",
+                    y: [4, 6]
+                }, {
+                    x: "Team C",
+                    y: [5, 8]
+                }, {
+                    x: "Team D",
+                    y: [3, 11]
+                }]
+            }, {
+                data: [{
+                    x: "Team A",
+                    y: [2, 6]
+                }, {
+                    x: "Team B",
+                    y: [1, 3]
+                }, {
+                    x: "Team C",
+                    y: [7, 8]
+                }, {
+                    x: "Team D",
+                    y: [5, 9]
+                }]
+            }],
+            chart: {
+                type: "rangeBar",
+                height: 335,
+                toolbar: {
+                    show: !1
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: !1
+                }
+            },
+            dataLabels: {
+                enabled: !0
+            },
+            legend: {
+                show: !1
+            },
+            colors: ["#038edc", "#51d28c"]
+        }),
+        colors = ((chart = new ApexCharts(document.querySelector("#column_range"), options)).render(), Apex = {
+            chart: {
+                toolbar: {
+                    show: !1
+                }
+            },
+            tooltip: {
+                shared: !1
+            },
+            legend: {
+                show: !1
+            }
+        }, ["#038edc", "#51d28c", "#f7cc53", "#f34e4e", "#564ab1", "#5fd0f3"]);
+</script>

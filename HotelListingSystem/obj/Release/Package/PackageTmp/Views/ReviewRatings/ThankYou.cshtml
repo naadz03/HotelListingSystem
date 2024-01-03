@@ -1,0 +1,102 @@
+﻿@model HotelListingSystem.Models.ReviewRating
+@{
+    ViewBag.Title = "Thank You";
+    Layout = null;
+}
+@Html.Partial("_eHead")
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #6B5B95;
+            overflow: hidden;
+        }
+
+        .striped-background {
+            background-image: linear-gradient(45deg, #6B5B95 25%, transparent 25%, transparent 50%, #6B5B95 50%, #6B5B95 75%, transparent 75%, transparent);
+            background-size: 20px 20px; /* Adjust the size for diagonal stripes */
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            text-align: center;
+            z-index: 1;
+            opacity: 0;
+            transition: transform 1s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 1s;
+        }
+
+        .active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .center-content h2 {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .center-content p {
+            font-size: 18px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="striped-background">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center center-content">
+                <h2 class="mb-4">Thank you for your feedback and time!</h2>
+                <p class="lead">We appreciate your valuable input.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Activate the center-content animation
+        $(document).ready(function () {
+            $(".center-content").addClass("active");
+        });
+    </script>
+</body>
+</html>

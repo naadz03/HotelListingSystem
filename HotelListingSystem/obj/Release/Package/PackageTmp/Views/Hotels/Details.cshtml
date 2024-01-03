@@ -1,0 +1,239 @@
+﻿@model HotelListingSystem.Models.Hotel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.css">
+    <link href="https://preview.colorlib.com/theme/travelix/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/responsive.css">
+    <script defer="" referrerpolicy="origin" src="https://preview.colorlib.com/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyVHJhdmVsaXglMjIlMkMlMjJ4JTIyJTNBMC45MzA1Mjc0NDk4Mjk3MzE2JTJDJTIydyUyMiUzQTE1MzYlMkMlMjJoJTIyJTNBODY0JTJDJTIyaiUyMiUzQTQ5MiUyQyUyMmUlMjIlM0ExNTM2JTJDJTIybCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkZ0aGVtZSUyRnRyYXZlbGl4JTJGJTIyJTJDJTIyciUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkYlMjIlMkMlMjJrJTIyJTNBMjQlMkMlMjJuJTIyJTNBJTIyVVRGLTglMjIlMkMlMjJvJTIyJTNBLTEyMCUyQyUyMnElMjIlM0ElNUIlNUQlN0Q="></script>
+    <script nonce="c7fcf528-52c2-46a1-8687-57b3181fb929">
+        (function (w, d) {
+            ! function (a, b, c, d) {
+                a[c] = a[c] || {};
+                a[c].executed = [];
+                a.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                a.zaraz.q = [];
+                a.zaraz._f = function (e) {
+                    return function () {
+                        var f = Array.prototype.slice.call(arguments);
+                        a.zaraz.q.push({
+                            m: e,
+                            a: f
+                        })
+                    }
+                };
+                for (const g of ["track", "set", "debug"]) a.zaraz[g] = a.zaraz._f(g);
+                a.zaraz.init = () => {
+                    var h = b.getElementsByTagName(d)[0],
+                        i = b.createElement(d),
+                        j = b.getElementsByTagName("title")[0];
+                    j && (a[c].t = b.getElementsByTagName("title")[0].text);
+                    a[c].x = Math.random();
+                    a[c].w = a.screen.width;
+                    a[c].h = a.screen.height;
+                    a[c].j = a.innerHeight;
+                    a[c].e = a.innerWidth;
+                    a[c].l = a.location.href;
+                    a[c].r = b.referrer;
+                    a[c].k = a.screen.colorDepth;
+                    a[c].n = b.characterSet;
+                    a[c].o = (new Date).getTimezoneOffset();
+                    if (a.dataLayer)
+                        for (const n of Object.entries(Object.entries(dataLayer).reduce(((o, p) => ({
+                            ...o[1],
+                            ...p[1]
+                        }))))) zaraz.set(n[0], n[1], {
+                            scope: "page"
+                        });
+                    a[c].q = [];
+                    for (; a.zaraz.q.length;) {
+                        const q = a.zaraz.q.shift();
+                        a[c].q.push(q)
+                    }
+                    i.defer = !0;
+                    for (const r of [localStorage, sessionStorage]) Object.keys(r || {}).filter((t => t.startsWith("_zaraz_"))).forEach((s => {
+                        try {
+                            a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s))
+                        } catch {
+                            a[c]["z_" + s.slice(7)] = r.getItem(s)
+                        }
+                    }));
+                    i.referrerPolicy = "origin";
+                    i.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    h.parentNode.insertBefore(i, h)
+                };
+                ["complete", "interactive"].includes(b.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
+    @Html.Partial("_eHead")
+</head>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v2b4487d741ca48dcbadcaf954e159fc61680799950996" integrity="sha512-D/jdE0CypeVxFadTejKGTzmwyV10c1pxZk/AqjJuZbaJwGMyNHY3q/mTPWqMUnFACfCTunhZUVcd4cV78dK1pQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;7ba67c59f8dc0392&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2023.3.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/jquery-3.2.1.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/easing/easing.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/popper.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/custom.js"></script>
+<style>
+    body {
+        background-color: lightgrey;
+        color: black;
+    }
+
+    .placeholder {
+        width: 300px;
+        height: 200px;
+        background-color: #ccc;
+        margin-right: 20px;
+    }
+
+    .description {
+        flex: 1;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    .image-container {
+        margin-top: 250px;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+</style>
+
+
+<body>
+    <div class="image-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="placeholder">
+                    <img src="@Url.Action("DownloadHotelFile", "Hotels", new { Id = Model.Id, doc_key_type = "c_hotel_image_c" })" alt="Image description" width="300" height="200">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="description">
+                    <h2> @Html.DisplayFor(model => model.Name).ToString().ToUpperInvariant()</h2>
+                    <p>
+                        <stromg>Max-occupancy: </stromg>@Html.DisplayFor(model => model.MaxOccupancy)<br />
+                        <stromg>Physical Address: </stromg> @string.Format($"{Model.StreetNumber} {Model.StreetName} {Model.Suburb}, {Model.City}, {Model.PhysicalAddressCode}")<br />
+                    </p>
+                    <p>
+                        <button class="btn btn-outline-primary" onclick="window.location.href='@Url.Action("DownloadHotelFile", "Hotels", new { Id = Model.Id, doc_key_type = "c_certificate_of_occupancy_c" })'">Certificate Of Occupancy</button> |
+                        <button class="btn btn-outline-secondary" onclick="window.location.href='@Url.Action("DownloadHotelFile", "Hotels", new { Id = Model.Id, doc_key_type = "c_coa_document_c" })'">COA Document</button>
+
+                        @*@Html.ActionLink("Certificate Of Occupancy", "DisplayImage", new { hotelId = Model.Id, IMage = 2 }, new { @class = "btn btn-primary", target = "_blank" }) |
+                        @Html.ActionLink("COA Document", "DisplayImage", new { hotelId = Model.Id, IMage = 3 }, new { @class = "btn btn-primary", target = "_blank" })*@
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Back to List", "Index", new { id = Model.Id }, new { @class = "btn btn-success" })
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+
+@Html.Partial("_eFooter")
+
+
+@*<div>
+        <h4>Hotel Details</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.HotelUser.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HotelUser.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MaxOccupancy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaxOccupancy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhysicalAddressCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhysicalAddressCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HotelImageName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HotelImageName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HotelImageContent)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HotelImageContent)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HotelImageContentType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HotelImageContentType)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.HotelImageFileSize)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HotelImageFileSize)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsVerified)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsVerified)
+            </dd>
+
+        </dl>
+    </div>*@
+

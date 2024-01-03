@@ -1,0 +1,499 @@
+﻿@model HotelListingSystem.ViewModel.OnboardingViewModel
+@{
+    ViewBag.Title = "Onboard";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update Reservation</title>
+    @Html.Partial("_eHead")
+    <style>
+        .c_half_input {
+            width: 177px;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("Onboard", "Employees", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <main>
+
+
+            <div class="form-horizontal">
+                <h1 class="col-md-offset-2">Onboarding Staff</h1>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                <h5 class="col-md-offset-2"> Details</h5>
+                <hr class="col-md-offset-2" />
+                @Html.HiddenFor(model => model.ImageBase64, new { htmlAttributes = new { @class = "form-control", @Name="imageBase64", @Id="ImageId"} })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.HotelId, "Registering for Hotel", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.HotelId, (SelectList)ViewBag.OwnerHotels, "-- select hotel --", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.HotelId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DepartmentId, "Hotel Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.DepartmentId, (SelectList)ViewBag.departments, "-- select department --", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, "First Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, "Last Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Mobile, "Mobile Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdentificationNumber, "Identification Number(RSA ID/Passport)", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.emailPrivate, "Send Confuguration To Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.emailPrivate, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "50", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.emailPrivate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="FacialRecognitionId">
+                    <div class="form-group text-right">
+                        <div class="col-md-offset-2 col-md-4">
+                            <button type="button" onclick="StratMeetingKYCModal()" class="btn btn-sm btn-outline-danger" id="FaceIdbtn">Take User Snapshop<span class="fa fa-camera" style="margin:3px;"></span></button>
+                            <input type="submit" value="Submit Onboarding" class="btn btn-sm btn-outline-success fa fa-arrow-circle-left hidden" id="submitId" />
+                        </div>
+                    </div>
+                </div>
+
+
+</main>
+    }
+
+</body>
+</html>
+
+
+
+<div id="SubmitModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitleText">KYC - Reservation</h4>
+            </div>
+            <input type="text" name="ImageData" id="LivenessCheckId" hidden />
+            <div class="modal-body">
+                <div class="container col-md-8">
+                    <div class="form-horizontal">
+                        <div id="2nd_section">
+                            <div class="row mRow col-md-8">
+                                <div class="form-group">
+                                    <div class="alert alert-success" style=" width: 430px; font-family: ui-monospace; font-style: italic;" id="AMYAlert">
+                                        <p>Please take a clear selfie of your face</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mRow col-md-8">
+                                <div class="form-group" id="divSelfieCapture">
+                                    <video id="Selfievideo" width="480" height="380" autoplay></video>
+                                    <canvas id="Selfiecanvas" width="480" height="380" class="hidden"></canvas>
+                                </div>
+                            </div>
+                            <div class="row mRow cButtons col-md-8">
+                                <div class="form-group c_bun_vids" style="justify-content:stretch">
+                                    <button id="capture2" class="col-md-offset-2 btn btn-sm btn-outline-warning fa fa-arrow-circle-right">Capture</button>
+                                    <button id="retake2" class="btn btn-sm btn-outline-warning fa fa-rotate-left hidden">Retake</button>
+                                    <button id="finishCapture" class="btn btn-sm btn-outline-warning fa fa-arrow-circle-right hidden">Proceed</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_eFooter")
+
+<script>
+    const selfievideo = document.getElementById('Selfievideo');
+    const canvas = document.getElementById('Selfiecanvas');
+    const retakeBtn = document.getElementById('retake2');
+    const finishCapture = document.getElementById('finishCapture');
+    const captureBtn = document.getElementById('capture2');
+    const submitBtn = document.getElementById('submitId');
+    const context = canvas.getContext('2d');
+    let isUsingRearCamera = true;
+    let videoStream;
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+            selfievideo.srcObject = stream;
+            videoStream = stream;
+        })
+        .catch((err) => {
+            console.log(`Error: ${err}`);
+        });
+    // To close the video stream
+    function closeVideoStream() {
+        // Check if the stream is available
+        if (videoStream) {
+            const tracks = videoStream.getTracks();
+            // Stop each track
+            tracks.forEach((track) => {
+                track.stop();
+            });
+            // Reset the video stream reference
+            videoStream = null;
+        }
+    }
+    selfievideo.addEventListener('loadedmetadata', () => {
+        captureBtn.addEventListener('click', () => {
+            canvas.classList.remove('hidden');
+            retakeBtn.classList.remove('hidden');
+            finishCapture.classList.remove('hidden');
+            captureBtn.classList.add('hidden');
+            selfievideo.classList.add('hidden');
+            context.drawImage(selfievideo, 0, 0, 480, 380);
+            const imgData = canvas.toDataURL('image/png');
+            debugger;
+            document.getElementById('LivenessCheckId').value = imgData;
+            $('#LivenessCheckId').val(imgData);
+            $("#ImageId").val(imgData);
+            const link = document.createElement('a');
+            link.download = 'image.png';
+            link.href = imgData;
+        });
+    });
+
+
+    retakeBtn.addEventListener('click', () => {
+        canvas.classList.add('hidden'); // hide the canvas element
+        retakeBtn.classList.add('hidden'); // hide the retake button
+        finishCapture.classList.add('hidden'); // hide the retake button
+        captureBtn.classList.remove('hidden'); // show the capture button
+        selfievideo.classList.remove('hidden'); // show the video element
+    });
+
+    finishCapture.addEventListener('click', () => {
+        closeVideoStream()
+        debugger;
+        let LiveImage = document.getElementById('LivenessCheckId').value;
+        const livenessBtn = document.getElementById('FaceIdbtn');
+        $.ajax({
+            url: '@Url.Action("CreateImageCookie", "Employees")',
+            type: 'POST',
+            data: {ImageData: LiveImage },
+            success: function (data) {
+                debugger;
+                if (data) {
+                    $('#SubmitModal').modal('hide');
+                    livenessBtn.classList.add('hidden');
+                    submitBtn.classList.remove('hidden');
+                } else {
+                    alert("Could not process your liveness image. Please try again later.");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error(errorThrown);
+            }
+        })
+
+    });
+</script>
+
+
+<!-- Include the Yoco SDK in your web page -->
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+<!-- Create a pay button that will open the popup-->
+@*<button id="checkout-button">Pay</button>*@
+
+@*<script type="text/javascript">
+        var yoco = new window.YocoSDK({
+
+            publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+        });
+        var checkoutButton = document.querySelector('#cardPaymentButton');
+        checkoutButton.addEventListener('click', function () {
+            debugger
+            yoco.showPopup({
+                amountInCents: 2799,
+                currency: 'ZAR',
+                name: 'Your Store or Product',
+                description: 'Awesome description',
+                callback: function (result) {
+                    debugger;
+                    // This function returns a token that your server can use to capture a payment
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                        alert("card successfully tokenised: " + result.id);
+                    }
+                    // In a real integration - you would now pass this chargeToken back to your
+                    // server along with the order/basket that the customer has purchased.
+                }
+            })
+        });
+    </script>*@
+
+
+<script>
+
+
+
+    function StratMeetingKYCModal() {
+        $('#SubmitModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+
+
+        const selfievideoOpen = document.getElementById('Selfievideo');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                selfievideoOpen.srcObject = stream;
+            })
+            .catch((err) => {
+                console.log(`Error: ${err}`);
+            });
+
+    }
+
+
+
+    function ChangePaymentMethod(paymentMethod) {
+        switch (paymentMethod) {
+            case "a_paypal_payment":
+                $('#cardPaymentButton').hide();
+                $('#paypalPayment').show();
+                break;
+            case "a_yoco_payment_method":
+                $('#cardPaymentButton').show();
+                $('#paypalPayment').hide();
+                break;
+        }
+    }
+
+
+
+    function formatdate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var day = date.getDate().toString().padStart(2, "0");
+        var formattedDate = year + "-" + month + "-" + day;
+        return formattedDate;
+    }
+
+    $(document).ready(function () {
+
+        @*document.getElementById("TotalMealsId").value = formatdate(new Date('@(Model.AddOnsCost!=null? Model.AddOnsCost:0)'));*@
+    });
+</script>
+
+
+<!-- Include the Yoco SDK in your web page -->
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+<!-- Create a pay button that will open the popup-->
+@*<button id="checkout-button">Pay</button>*@
+
+@*<script type="text/javascript">
+        var yoco = new window.YocoSDK({
+
+            publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+        });
+        var checkoutButton = document.querySelector('#cardPaymentButton');
+        checkoutButton.addEventListener('click', function () {
+            debugger;
+            let amount = '@Model.TotalCost.ToString().Split('.').ToList()[0].Replace(',','.')';
+            amount = amount * 100;
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: 'Travelix: @Model.Hotel.Name',
+                description: 'An awseome reservation for you.',
+                callback: function (result) {
+                    debugger;
+                    // This function returns a token that your server can use to capture a payment
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                        alert('Hi @Model.HotelUser.FullName, thank you for your payment')
+                        debugger
+                        $.ajax({
+                            url: '@Url.Action("CreditDebitPaymentYoco", "Payments")',
+                            type: 'POST',
+                            data: { reservationId: '@Model.Id', yocco_ref: result.id },
+                            success: function (data) {
+                                if (!data) {
+                                    alert('An error has occurd!');
+                                } else {
+                                    window.location.reload();
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error(errorThrown);
+                            }
+                        })
+                    }
+                }
+            })
+        });
+    </script>*@
+
+
+<script>
+    document.querySelector('.button_see_holtel').addEventListener('click', function () {
+        const element = document.querySelector('#mainId');
+        element.scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+
+    function goBack() {
+        window.history.back();
+    }
+
+
+    function ChangeMenues(price, status) {
+        debugger;
+        let totalCost = parseFloat(document.getElementById('TotalMealsId').value);
+        if (status == true) {
+            var local = parseInt(totalCost) + parseInt(price);
+            $("#TotalMealsId").val(local);
+        } else {
+            var local = parseInt(totalCost) - parseInt(price);
+            $("#TotalMealsId").val(parseInt(local));
+        }
+    }
+
+    function ChangePaymentMethod(paymentMethod) {
+        switch (paymentMethod) {
+            case "a_paypal_payment":
+                $('#cardPaymentButton').hide();
+                $('#paypalPayment').show();
+                break;
+            case "a_yoco_payment_method":
+                $('#cardPaymentButton').show();
+                $('#paypalPayment').hide();
+                break;
+        }
+    }
+
+
+
+    function formatdate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var day = date.getDate().toString().padStart(2, "0");
+        var formattedDate = year + "-" + month + "-" + day;
+        return formattedDate;
+    }
+
+    $(document).ready(function () {
+        @*document.getElementById("CheckOutId").value = formatdate(new Date('@Model.CheckOutDate'));
+        document.getElementById("CheckInId").value = formatdate(new Date('@Model.CheckInDate'));*@
+
+        // Get the current date
+        var today = new Date();
+
+        // Format the current date as yyyy-mm-dd
+        var formattedDate = today.toISOString().split('T')[0];
+
+        // Set the minimum attribute of the input field to today's date
+        document.getElementById('CheckInId').setAttribute('min', formattedDate);
+
+        // Set the maximum attribute of the input field to a future date
+        var futureDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate()); // Adjust as needed
+        var formattedFutureDate = futureDate.toISOString().split('T')[0];
+        document.getElementById('CheckInId').setAttribute('max', formattedFutureDate);
+
+
+
+        // Get tomorrow's date
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        // Format tomorrow's date as yyyy-mm-dd
+        formattedDate = tomorrow.toISOString().split('T')[0];
+
+        // Set the minimum attribute of the input field to tomorrow's date
+        document.getElementById('CheckOutId').setAttribute('min', formattedDate);
+
+
+    });
+
+
+    $("#RoomId").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+    $("#NoOfRooms").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+</script>

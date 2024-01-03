@@ -1,0 +1,128 @@
+﻿@model HotelListingSystem.Models.Room
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Room</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sleeps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sleeps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoOfBeds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoOfBeds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Baths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Baths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Balcony)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Balcony)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageName1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageName1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageContent1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageContent1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageContentType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageContentType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageFileSize1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageFileSize1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageName2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageName2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageContent2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageContent2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageContentType2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageContentType2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomImageFileSize2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomImageFileSize2)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

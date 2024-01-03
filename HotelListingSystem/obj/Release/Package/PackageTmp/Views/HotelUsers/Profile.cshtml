@@ -1,0 +1,59 @@
+﻿@model HotelListingSystem.Models.HotelUsers
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+<head>
+    @Html.Partial("_eHead")
+    <style>
+        .dl-horizontal dt:not(:last-child):after {
+            content: "\A";
+            white-space: pre;
+        }
+        .dl-horizontal dt {
+            display: inline-block;
+            width: 120px; /* adjust as needed */
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .dl-horizontal dd {
+            display: inline-block;
+            margin-left: 0;
+            margin-right: 10px;
+        }
+        hr {
+            width:70%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container_body">
+            <div>
+                <h4>Hotel User Details</h4>
+                <hr />
+                <p><strong>First Name: </strong>@Html.DisplayFor(model => model.FirstName)</p>
+                <p><strong>Last Name: </strong>@Html.DisplayFor(model => model.LastName)</p>
+                <p><strong>Username: </strong>@Html.DisplayFor(model => model.UserName)</p>
+                <p><strong>Company: </strong>@Html.DisplayFor(model => model.CompanyName)</p>
+                <p><strong>Designation: </strong>@Html.DisplayFor(model => model.Designation)</p>
+                <p><strong>Email: </strong>@Html.DisplayFor(model => model.EmailAddress)</p>
+                <p><strong>Mobile: </strong>@Html.DisplayFor(model => model.MobileNumber)</p>
+
+                <p><strong>ID/Passport No: </strong>@Html.DisplayFor(model => model.IdentificationNumber)</p>
+                <p><strong>User Type: </strong>@Html.DisplayFor(model => model.HotelUserType)</p>
+                <p><strong>Date Created: </strong>@Html.DisplayFor(model => model.CreatedOn)</p>
+            </div>
+
+        </div>
+
+    </main>
+</body>
+
+
+
+@Html.Partial("_eFooter")

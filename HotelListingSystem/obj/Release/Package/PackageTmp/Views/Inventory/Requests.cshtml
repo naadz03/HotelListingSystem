@@ -1,0 +1,217 @@
+﻿@model IEnumerable<HotelListingSystem.Models.ProductRequest>
+@{
+    ViewBag.Title = "Requests";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>Business Inventory </h1>
+        <hr style="width:100%" />
+        <button type="button" onclick="window.location.href='/Inventory/AddProduct'" class="add-to-cart btn btn-sm btn-outline-success" style="margin-left:10px;margin-top:10px;">Add To Inventory<span class="fa fa-inbox" style="margin:3px;"></span></button>    <div class="product-list">
+            <table class="table" width="90%" style="margin-top:20px;" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Product </th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>For Hotel</th>
+                        <th>Request By User</th>
+                        <th>Added </th>
+                        <th>Deleted </th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>ㅤㅤㅤㅤㅤ</td>
+                            <td> @Html.Raw(item.Name) </td>
+                            <td> @Html.Raw(item.Description)</td>
+                            <td>@Html.Raw(item.Quantity) </td>
+                            <td>@Html.Raw(item.Waiter.Hotel.Name) </td>
+                            <td> @Html.Raw(item.Waiter.FullName)</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAdded)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsDeleted)
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-info" onclick="window.location.href='/Inventory/EditProduct?id=@item.Id'">Add To Products<span class="fa fa-edit" style="margin:3px;"></span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Product </th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>For Hotel</th>
+                        <th>Request By User</th>
+                        <th>Added </th>
+                        <th>Deleted </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<h2>Requests</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdded)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WaiterId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaiterId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

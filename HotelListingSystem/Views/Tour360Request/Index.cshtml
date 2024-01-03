@@ -1,0 +1,252 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Tour360Request>
+
+@{
+    ViewBag.Title = "360 Tour";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>360 Tour Requests</h1>
+        <hr style="width:100%" />
+        @if (User.IsInRole("Business Owner"))
+        {
+            <button type="button" onclick="window.location.href='/Tour360Request/Create'" class="add-to-cart btn btn-sm btn-outline-warning" style="margin-left: 10px; margin-top: 10px;">Request Tour<span class="fa fa-pencil" style="margin:3px;"></span></button>
+        }
+        <div class="product-list">
+            <table class="table" width="90%" style="margin-top:20px;" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HotelId)
+                        </th>
+                        <th>
+                            Date Captured
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.comment)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Hotel.Name)
+                            </td>
+                            <td>
+                                @Html.Raw(item.DateRequested.ToLongDateString())
+                            </td>
+                            <td>
+                                @Html.Raw(!item.Paid ? "In Awaiting Payment" : item.Paid && !item.Actioned ? "In Awaiting Admin Review" : item.Actioned && item.Approved ? "360 Tour Approved" : item.TourUploaded ? "360 Tour Uploaded" : "360 Tour Declined")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.comment)
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Business Owner") && !item.Paid)
+                                {
+                                    <button class="btn btn-sm btn-warning" id="cardPaymentButton" onclick="addreqId('@item.Id')">Pay Now</button>
+                                }
+                                @if (item.Paid && !item.Actioned && !User.IsInRole("Business Owner"))
+                                {
+                                    <button class="btn btn-sm btn-primary" onclick="window.location.href='@Url.Action("Edit", new { id = item.Id })'">View</button>
+                                    @*@Html.ActionLink("View", "Edit", new { id = item.Id })*@
+                                }
+                                @if (item.Actioned && item.Approved && !item.TourUploaded)
+                                {
+                                    <button class="btn btn-sm btn-outline-primary" onclick="AddRoomIdToHotel('@item.Id')">Upload 360 Tour</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.HotelId)
+                        </th>
+                        <th>
+                            Date Captured
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.comment)
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+
+<!-- Include the Yoco SDK in your web page -->
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+<!-- Create a pay button that will open the popup-->
+@*<button id="checkout-button">Pay</button>*@
+
+<script type="text/javascript">
+    var requestId = 0;
+
+    function addreqId(id) {
+        requestId = id;
+    }
+
+    var yoco = new window.YocoSDK({
+
+        publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+    });
+    var checkoutButton = document.querySelector('#cardPaymentButton');
+    checkoutButton.addEventListener('click', function () {
+        debugger
+        yoco.showPopup({
+            amountInCents: 25000,
+            currency: 'ZAR',
+            name: '360 Tour Payment',
+            description: 'Pay now for your request to be reviewed',
+            callback: function (result) {
+                if (result.error) {
+                    const errorMessage = result.error.message;
+                    alert("error occured: " + errorMessage);
+                } else {
+                    $.ajax({
+                        url: '@Url.Action("Payment", "Tour360Request")',
+                        type: 'GET',
+                        data: { Id: requestId, Payment: result },
+                        success: function (data) {
+                            alert("Your payment has been recieved, you will be notified shortly");
+                            location.reload();
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.error(errorThrown);
+                        }
+                    })
+                }
+            }
+        })
+    });
+
+    function ShowModal() {
+        $('#TourModal').modal('show');
+    }
+    function AddRoomIdToHotel(id) {
+        var tourId = prompt('Ensue the ID is correct tour details\n\nPlease enter the tour ID:');
+        if (tourId.length > 15) {
+            $.ajax({
+                url: '@Url.Action("TourAdd", "Tour360Request")',
+                type: 'GET',
+                data: { Id: id, TourId: tourId },
+                success: function (data) {
+                    alert("Tour Id has been added succeccfully..");
+                    location.reload();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+        }
+    }
+
+</script>

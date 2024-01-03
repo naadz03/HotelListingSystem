@@ -1,0 +1,242 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Payment>
+@using HotelListingSystem.Models
+
+@{
+    Layout = null;
+}
+@{
+    DateTime now = DateTime.Now;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>Travix Service Payments</h1>
+            <p>
+                @Html.ActionLink("Donload PDF Statement", "ServicePaymentsPDFStatement", "home", new { businessUserId = AppHelper.CurrentHotelUser().Id }, new { @class = "btn btn-outline-info" })
+            </p>
+            <br />
+            <table class="table" width="90%" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>OWNER</th>
+                        <th>HOTEL</th>
+                        <th>PAYMENT DATE</th>
+                        <th>PAYMENT BY</th>
+                        <th>PAYMENT TYPE</th>
+                        <th>PAYMENT REF</th>
+                        <th>AMOUNT PAID</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@Html.Raw(item.Hotel?.HotelUser.FullName??"-- no owner --")</td>
+                            <td>@Html.Raw(item.Hotel?.Name??"Multiple Hotels")</td>
+                            <td>@Html.Raw(new DateTime(((DateTime)item.CreatedDateTime).Year, ((DateTime)item.CreatedDateTime).Month, DateTime.DaysInMonth(((DateTime)item.CreatedDateTime).Year, ((DateTime)item.CreatedDateTime).Month), 23, 59, 59))</td>
+                            <td>@Html.Raw(item.HotelUser.FullName)</td>
+                            <td>@Html.Raw(item.PaymentType)</td>
+                            <td>@Html.Raw(item.RefNo)</td>
+                            <td>@Html.Raw(item.Amount.ToString("C"))</td>
+                            @*<td>
+                                <button class="btn btn-outline-warning">Download Recept</button>
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>OWNER</th>
+                        <th>HOTEL</th>
+                        <th>PAYMENT DATE</th>
+                        <th>PAYMENT BY</th>
+                        <th>PAYMENT TYPE</th>
+                        <th>PAYMENT REF</th>
+                        <th>AMOUNT PAID</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>
+<!--<script>
+    function BlacklistNoticeMail(id ) {
+     $.ajax({
+            url: '@Url.Action("SendBlacklistEmail", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('Your email has been sent out successfully.');
+                } else {
+                    alert('An error occured while trying to send your email, please try again.');
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+    function Blacklisthotel(id ) {
+     $.ajax({
+            url: '@Url.Action("Blacklisthotel", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('The hotel has been blacklisted. an email was sent to the owner/receptionist')
+                    window.location.reloa();
+                } else {
+                    alert('An error occured while trying to send your email, please try again.')
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+    function WhitelistHotel(id ) {
+     $.ajax({
+            url: '@Url.Action("WhitelistHotel", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('The hotel has been whitelisted. an email was sent to the owner/receptionist')
+                    window.location.reloa();
+                } else {
+                    alert('An error occured while trying to send your email, please try again.')
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+</script>-->
+
+@*//Include the Yoco SDK in your web page*@
+<!--<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>-->
+
+@*Create a pay button that will open the popup
+    <button id="checkout-button">Pay</button>*@
+
+<!--<script type="text/javascript">
+    var yoco = new window.YocoSDK({
+
+        publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+    });
+    var checkoutButton = document.querySelector('#BulkPaymentId');
+    checkoutButton.addEventListener('click', function () {
+        debugger
+        let amount = '@ViewBag.Amount';
+        amount = amount * 100;
+        if (amount > 1) {
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: 'Bulk Payment: paying @Model.Count() hotels',
+                description: 'Awesome description',
+                callback: function (result) {
+                    debugger;
+                    // This function returns a token that your server can use to capture a payment
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                        debugger;
+                        $.ajax({
+                            url: '@Url.Action("PaySystemFeesBulk", "Payments")',
+                            type: 'POST',
+                            data: { id: '@ViewBag.Ownerid', yocco_ref: result.id },
+                            success: function (data) {
+                                if (!data) {
+                                    alert('An error has occurd!');
+                                } else {
+                                    alert('Hi @ViewBag.FullName, thank you for your payment')
+                                }
+                                window.location.reload();
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error(errorThrown);
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            aler('Invalid amount.')
+        }
+    });
+
+
+    function PaySystemFeesSingle(id, hotelId, amount, subject) {
+        debugger
+        amount = amount * 100;
+        if (amount > 1) {
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: 'Single Payment: ' + subject,
+                description: 'Awesome description',
+                callback: function (result) {
+                    debugger;
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                         debugger;
+                        $.ajax({
+                            url: '@Url.Action("PaySystemFeesBulk", "Payments")',
+                            type: 'POST',
+                            data: { id: id, HotelId: hotelId, yocco_ref: result.id },
+                            success: function (data) {
+                                if (!data) {
+                                    alert('An error has occurd!');
+                                } else {
+                                    alert('Hi @ViewBag.FullName, thank you for your payment')
+                                    window.location.reload();
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error(errorThrown);
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    }
+
+
+</script>-->

@@ -1,0 +1,46 @@
+﻿@model HotelListingSystem.Models.MealTypes
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<head>
+    @Html.Partial("_eHead")
+</head>
+
+<body>
+    <main>
+        <div class="container_body">
+            <h2>Details</h2>
+
+            <div>
+                <h6>Meal Type</h6>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control col-md-3", disabled = "disabled" } })
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Back to List", "Index", new { id = 0 }, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+    </main>
+</body>
+
+
+
+
+@Html.Partial("_eFooter")

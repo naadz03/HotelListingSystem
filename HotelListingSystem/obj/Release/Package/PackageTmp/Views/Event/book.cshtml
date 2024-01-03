@@ -1,0 +1,174 @@
+﻿@model HotelListingSystem.Models.EventReservation
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update Reservation</title>
+    @Html.Partial("_eHead")
+    <style>
+        .c_half_input {
+            width: 177px;
+        }
+
+        .image-text {
+            margin: 0 0 0 20px;
+            height: 37.6px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        @using (Html.BeginForm("Update", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.HotelEventId, new { @Name = "HotelEventId" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                <h1 class="col-md-offset-2">@Model.HotelEvent.Name</h1>
+                <hr class="col-md-offset-2" />
+                <br />
+
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-2">
+                        <img src="@Url.Action("DownloadRoomImageFile", new { Id = Model.HotelEvent.Id, doc_key_type = "e_event_display_image" })" width="600px" height="300px" />
+                    </div>
+                </div>
+                <br />
+                <h1 class="col-md-offset-2">@Model.HotelEvent.Name</h1>
+                <hr class="col-md-offset-2" />
+
+                <br />
+                <br />
+                <p class="col-md-offset-2">@Model.HotelEvent.Description</p>
+                <br />
+                <br />
+                <h6 class="col-md-offset-2" style="color:darkgrey">@Html.Raw($"{Model.HotelEvent.Price.ToString("C")} per ticket.")</h6>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NoOfTickets, "Number of Tickets", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.NoOfTickets, new { htmlAttributes = new { @class = "form-control", @required = "required", @onchange = "UpdateTicketCost(this.value)", @Id="TicketsId" } })
+                        @Html.ValidationMessageFor(model => model.NoOfTickets, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Ticket(s) Total Cost ", new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TotalTickesCost, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @Id = "TotalTickesCostId" } })
+                        @Html.ValidationMessageFor(model => model.TotalTickesCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Book Now" onclick="PayForSelectedTickets(TotalTickesCostId.value, '@Model.HotelEvent.Name', TicketsId.value)" class="btn btn-outline-primary" />
+                        <input type="button" onclick="window.location.href='/event/index'" value="Back To List" class="btn btn-outline-warning" />
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")
+
+<script>
+    $(document).ready(function () {
+        @*document.getElementById("StartId").value = formatdate(new Date('@Model.StartDate'));*@
+    });
+    function formatdate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var day = date.getDate().toString().padStart(2, "0");
+        var formattedDate = year + "-" + month + "-" + day;
+        return formattedDate;
+    }
+
+    function UpdateTicketCost(tickets) {
+        debugger;
+        if (tickets > 0) {
+            let cost = parseInt('@Model.HotelEvent.Price');
+            let total = (cost * tickets);
+            $("#TotalTickesCostId").val(total);
+        } else {
+            $("#TotalTickesCostId").val('0');
+        }
+    }
+
+</script>
+<!-- Include the Yoco SDK in your web page -->
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+<!-- Create a pay button that will open the popup-->
+@*<button id="checkout-button">Pay</button>*@
+
+<script type="text/javascript">
+    function PayForSelectedTickets(amount, event, tickets) {
+        debugger;
+        var yoco = new window.YocoSDK({
+
+            publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+        });
+        if (amount > 0) {
+            amount = amount * 100;
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: event,
+                description: 'have some fun.',
+                callback: function (result) {
+                    debugger;
+                    // This function returns a token that your server can use to capture a payment
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        Swal.fire('Cancelled', 'An error occurd while trying to process your payment.', 'error').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        @*alert('Hi @Model.HotelUser.FullName, thank you for your payment')*@
+                        debugger
+                        $.ajax({
+                            url: '@Url.Action("CreditDebitPaymentYoco", "event")',
+                            type: 'POST',
+                            data: { yocco_ref: result.id, eventId: '@Model.HotelEvent.Id', amount: amount, NoOfTickets: tickets },
+                            success: function (data) {
+                                if (!data) {
+                                    Swal.fire('Cancelled', 'An error occurd while trying to process your payment.', 'error').then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire('Success!', 'Thank you for having fun with us.', 'success').then(() => {
+                                        window.location.href = '/event/myevents';
+                                    });
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                Swal.fire('Cancelled', 'An error occurd while trying to process your booking.', 'error').then(() => {
+                                    location.reload();
+                                });
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            Swal.fire('Invalid Tickets', 'Please select at least one (1) ticket.', 'error').then(() => {
+                location.reload();
+            });
+        }
+    }
+</script>

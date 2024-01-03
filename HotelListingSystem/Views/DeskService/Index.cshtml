@@ -1,0 +1,171 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Reservation>
+
+@{
+    Layout = null;
+    ViewBag.Title = "Desk Services";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>Desk Services</h1>
+
+        <hr style="width:100%" />
+        <div class="form-group text-right" style="margin-right: 100px; text-align: right;">
+            <form action="/DeskService/SearchReservations" method="get">
+                <input type="text" name="IdentityNumber" required class="form-control col-md-2 text-right" min="13" maxlength="13" style="margin-right: 5px" />
+                <input type="submit" value="Search" class="btn btn-primary form-control col-md-1" style="margin-right: 5px" />
+                <input type="button" value="Refresh" onclick="window.location.href='/DeskService/Index'" class="btn btn-outline-info form-control col-md-1" style="margin-right: 5px"/>
+                <input type="button" value="Check-Out" onclick="window.location.href='/DeskService/CurrentActiveReservations'" class="btn btn-outline-secondary form-control col-md-1" />
+            </form>
+        </div>
+        <div class="product-list">
+            <table class="table" width="90%" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Reserved By</th>
+                        <th>Identity No.</th>
+                        <th>Check-In date</th>
+                        <th>Check-out date</th>
+                        <th>Number of days</th>
+                        <th>Room Type</th>
+                        <th>Total Cost</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelUser.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelUser.IdentificationNumber)</td>
+                            <td>@Html.Raw(item.CheckInDate.ToString().Substring(0, 10))</td>
+                            <td>@Html.Raw(item.CheckOutDate.ToString().Substring(0, 10))</td>
+                            <td>@Html.Raw(String.Format($"{((int)(item.CheckOutDate - item.CheckInDate).TotalDays)} days"))</td>
+                            <td>@Html.DisplayFor(modelItem => item.Room.Name)</td>
+                            <td>@Html.Raw(item.TotalCost.ToString("C"))</td>
+                            <td>
+                                @Html.ActionLink("Update", "Update", new { Id = item.Id }, new { @class = "btn btn-warning" }) |
+                                @Html.ActionLink("Check-In", "DeskCheckIns", new { Id = item.Id }, new { @class = "btn btn-success" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Reserved By</th>
+                        <th>Check-In date</th>
+                        <th>Check-out date</th>
+                        <th>Number of days</th>
+                        <th>Room Type</th>
+                        <th>Dining Cost</th>
+                        <th>Total Cost</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>

@@ -1,0 +1,154 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Inventory>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>Business Inventory </h1>
+        <hr style="width:100%" />
+        <button type="button" onclick="window.location.href='/Inventory/AddProduct'" class="add-to-cart btn btn-sm btn-outline-success" style="margin-left:10px;margin-top:10px;">Add To Inventory<span class="fa fa-inbox" style="margin:3px;"></span></button>
+        <button type="button" onclick="window.location.href='/Inventory/ProductCreate'" class="add-to-cart btn btn-sm btn-outline-warning" style="margin-left: 10px; margin-top: 10px;">Add Product<span class="fa fa-pencil" style="margin:3px;"></span></button>
+        <button type="button" onclick="window.location.href='/Inventory/Requests'" class="add-to-cart btn btn-sm btn-outline-info" style="margin-left: 10px; margin-top: 10px;">Product Requests<span class="fa fa-folder-open" style="margin:3px;"></span></button>
+        <div class="product-list">
+            <table class="table" width="90%" style="margin-top:20px;" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Product </th>
+                        <th>Quantity</th>
+                        <th>For Hotel</th>
+                        <th>Added By User</th>
+                        <th>Department</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ForHotel.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.AddedByUser.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Department.Name)</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='/Inventory/EditProduct?id=@item.Id'">Edit<span class="fa fa-edit" style="margin:3px;"></span></button> |
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="window.location.href='/Inventory/Details?id=@item.Id'">Details<span class="fa fa-info" style="margin:3px;"></span></button> |
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.location.href='/Inventory/Delete?id=@item.Id'">Delete<span class="fa fa-trash" style="margin:3px;"></span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Product </th>
+                        <th>Quantity</th>
+                        <th>For Hotel</th>
+                        <th>Added By User</th>
+                        <th>Department</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")

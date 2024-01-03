@@ -1,0 +1,148 @@
+﻿@model IEnumerable<HotelListingSystem.Models.EventReservation>
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>My Events </h1>
+            <br />
+            <table class="table" width="90%" id="example">
+                <tr>
+                    <th>Purchase By</th>
+                    <th>Hotel</th>
+                    <th>Event</th>
+                    <th>Price Per Ticket</th>
+                    <th>Tickets</th>
+                    <th>Ticket No.</th>
+                    <th>Amount</th>
+                    <th>Duration</th>
+                    <th>Start Time/Date</th>
+                </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Customer.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Reservation.Hotel.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelEvent.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelEvent.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NoOfTickets)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TicketNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TotalTickesCost)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelEvent.Duration)</td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelEvent.StartDate)</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Purchase By</th>
+                        <th>Hotel</th>
+                        <th>Event</th>
+                        <th>Price Per Ticket</th>
+                        <th>Tickets</th>
+                        <th>Ticket No.</th>
+                        <th>Amount</th>
+                        <th>Duration</th>
+                        <th>Start Time/Date</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+    function DeleteHotelEvent(id) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("DeleteHotelEvent", "event")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data) {
+                            Swal.fire('Confirmed!', 'The event has been deleted successfully.', 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+
+    function ActivateHotelEvent(id, value) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("ActivateHotelEvent", "event")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data) {
+                            Swal.fire('Confirmed!', 'The event has been ' + value + ' successfully.', 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+</script>

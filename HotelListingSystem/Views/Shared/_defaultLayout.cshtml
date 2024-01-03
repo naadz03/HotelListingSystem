@@ -1,0 +1,282 @@
+﻿@model HotelListingSystem.Models.Hotel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.css">
+    <link href="https://preview.colorlib.com/theme/travelix/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/responsive.css">
+    <script defer="" referrerpolicy="origin" src="https://preview.colorlib.com/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyVHJhdmVsaXglMjIlMkMlMjJ4JTIyJTNBMC45MzA1Mjc0NDk4Mjk3MzE2JTJDJTIydyUyMiUzQTE1MzYlMkMlMjJoJTIyJTNBODY0JTJDJTIyaiUyMiUzQTQ5MiUyQyUyMmUlMjIlM0ExNTM2JTJDJTIybCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkZ0aGVtZSUyRnRyYXZlbGl4JTJGJTIyJTJDJTIyciUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkYlMjIlMkMlMjJrJTIyJTNBMjQlMkMlMjJuJTIyJTNBJTIyVVRGLTglMjIlMkMlMjJvJTIyJTNBLTEyMCUyQyUyMnElMjIlM0ElNUIlNUQlN0Q="></script>
+    <script nonce="c7fcf528-52c2-46a1-8687-57b3181fb929">
+        (function (w, d) {
+            ! function (a, b, c, d) {
+                a[c] = a[c] || {};
+                a[c].executed = [];
+                a.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                a.zaraz.q = [];
+                a.zaraz._f = function (e) {
+                    return function () {
+                        var f = Array.prototype.slice.call(arguments);
+                        a.zaraz.q.push({
+                            m: e,
+                            a: f
+                        })
+                    }
+                };
+                for (const g of ["track", "set", "debug"]) a.zaraz[g] = a.zaraz._f(g);
+                a.zaraz.init = () => {
+                    var h = b.getElementsByTagName(d)[0],
+                        i = b.createElement(d),
+                        j = b.getElementsByTagName("title")[0];
+                    j && (a[c].t = b.getElementsByTagName("title")[0].text);
+                    a[c].x = Math.random();
+                    a[c].w = a.screen.width;
+                    a[c].h = a.screen.height;
+                    a[c].j = a.innerHeight;
+                    a[c].e = a.innerWidth;
+                    a[c].l = a.location.href;
+                    a[c].r = b.referrer;
+                    a[c].k = a.screen.colorDepth;
+                    a[c].n = b.characterSet;
+                    a[c].o = (new Date).getTimezoneOffset();
+                    if (a.dataLayer)
+                        for (const n of Object.entries(Object.entries(dataLayer).reduce(((o, p) => ({
+                            ...o[1],
+                            ...p[1]
+                        }))))) zaraz.set(n[0], n[1], {
+                            scope: "page"
+                        });
+                    a[c].q = [];
+                    for (; a.zaraz.q.length;) {
+                        const q = a.zaraz.q.shift();
+                        a[c].q.push(q)
+                    }
+                    i.defer = !0;
+                    for (const r of [localStorage, sessionStorage]) Object.keys(r || {}).filter((t => t.startsWith("_zaraz_"))).forEach((s => {
+                        try {
+                            a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s))
+                        } catch {
+                            a[c]["z_" + s.slice(7)] = r.getItem(s)
+                        }
+                    }));
+                    i.referrerPolicy = "origin";
+                    i.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    h.parentNode.insertBefore(i, h)
+                };
+                ["complete", "interactive"].includes(b.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
+</head>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v2b4487d741ca48dcbadcaf954e159fc61680799950996" integrity="sha512-D/jdE0CypeVxFadTejKGTzmwyV10c1pxZk/AqjJuZbaJwGMyNHY3q/mTPWqMUnFACfCTunhZUVcd4cV78dK1pQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;7ba67c59f8dc0392&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2023.3.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/jquery-3.2.1.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/easing/easing.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/popper.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/custom.js"></script>
+<style>
+    body {
+        background-color: lightgrey;
+        color: black;
+    }
+
+    .PageBody {
+        margin: 200px 0 0 0;
+    }
+
+    .container_body {
+        margin-left: 40px;
+        margin-right: 20px;
+    }
+
+    .control-label {
+        font-weight: 600;
+    }
+
+    .form-control {
+        color: black;
+    }
+
+    .image-text {
+        margin: 0 0 0 20px;
+        height: 37.6px;
+    }
+
+    hr {
+        width: 70%;
+    }
+
+    .container_about {
+        border: 1px solid grey;
+        display: flex;
+        width: 767px;
+        margin-left: 150px;
+    }
+
+    .left-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row_a {
+        display: flex;
+    }
+
+    .img_a {
+        width: 245.1px;
+        height: auto;
+    }
+
+    .right-column {
+        flex-grow: 1;
+    }
+
+        .right-column img {
+            width: 100%;
+            height: auto;
+            padding-right: 10;
+        }
+
+    .img_a {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        margin-right: 1px;
+    }
+
+    .srearch_result_header, temp_body {
+        margin-left: 150px;
+    }
+
+    .temp_body {
+        margin: 35px 150px 20px 150px;
+        width: 767px;
+    }
+
+    .temp_head {
+        width: 767px;
+    }
+
+    .button_see_holtel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        background-color: purple;
+        color: white;
+        font-weight: bold;
+        border: 1px solid white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 5px;
+        float: right;
+    }
+
+    .top_sec_hot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 767px;
+    }
+
+        .top_sec_hot p {
+            margin: 0;
+        }
+
+        .top_sec_hot button {
+            height: 30px;
+        }
+</style>
+
+<body>
+    <div id="layout1">
+        <div class="container_body">
+            <div class="PageBody" id="PageBody">
+
+                <div class="temp_head">
+                    <div class="srearch_result_header" style="margin-bottom: 20px;">
+
+                        <h2>@Model.Name.ToString().ToUpper()</h2>
+                        <div class="top_sec_hot">
+                            <p style="color:dimgrey;">@string.Format($"{Model.StreetNumber} {Model.StreetName},{Model.Suburb}") <span class="f4bd0794db b4273d69aa"><a href="https://www.google.com/maps/search/?api=1&query= @string.Format($"{Model.StreetNumber} {Model.StreetName},{Model.Suburb}")" target="_blank">Show Map</a></span></p>
+                            <button class="button_see_holtel" onclick="window.location.href='../Hotels/FindHotel'"> See availability</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="container_about ">
+                    @{
+                        var db = new HotelListingSystem.Models.ApplicationDbContext();
+                        var room = db.Rooms.FirstOrDefault(a => a.HotelId == Model.Id);
+                    }
+
+                    <div class="left-column">
+                        @if (room != null)
+                        {
+                            <div class="row_a">
+                                <img class="img_a" src="data::@room.RoomImageContentType1;base64,@room.RoomImageContent1" alt="placeholder image1">
+                            </div>
+                            <div class="row_a">
+                                <img class="img_a" src="data:@room.RoomImageContentType2;base64,@room.RoomImageContent2" alt="placeholder image4">
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="row_a">
+                                <img class="img_a" src="https://lh4.googleusercontent.com/proxy/zZA09cFACVZPZzJFCXlnC1ieotdcS0sB_xq4_m2gGU9PFOcZyQfwS0h03Q08hCyyzPTBNQxX1pfOQwaBxGimGN4NHUvEs5NM8MKVNy1Ux1VtdLkX_-ses6MbswHuXZ0-7FOV0XlOktAjCeOWRGk6EFQy5OyF7OI=w253-h168-k-no" alt="placeholder image1">
+                            </div>
+                            <div class="row_a">
+                                <img class="img_a" src="https://lh4.googleusercontent.com/proxy/1IXepcM0G_86fzNZx4hXB1KVrC96YKMF_zTz7fWp8lW2dFDBq92XAYGY0qoeFbUhY7sgQ9kcOXgwk9M7jxPdWPZXE90Z8MavReYiCb2Eggbhn86hFOr_CxOQ0jTbDMZKgLWInqUG1Kdw3MSB2HE3PZtNgwlDKg=w253-h168-k-no" alt="placeholder image4">
+                            </div>
+                        }
+
+                    </div>
+                    @if (Model.HotelImageContent != null)
+                    {
+                        <div class="right-column">
+                            <img class="img_a" src="data:@Model.HotelImageContentType;base64,@Model.HotelImageContent" alt="placeholder image5">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="right-column">
+                            <img class="img_a" src="https://waterfallcity.co.za/wp-content/uploads/CITY-LODGE-HOTEL-1.jpg" alt="placeholder image5">
+                        </div>
+                    }
+
+                </div>
+                <div class="temp_body">
+                    <p>
+                        You're eligible for a Genius discount at Buckleigh Guesthouse! To save at this property, all you have to do is sign in.
+
+                        Situated in Durban, 4 km from Kings Park Stadium, Buckleigh Guesthouse features accommodation with an outdoor swimming pool, free private parking, a garden and a shared lounge. This 3-star guest house offers a shared kitchen and free WiFi. The property is non-smoking and is set 5.2 km from Moses Mabhida Stadium.
+                        At the guest house rooms are fitted with air conditioning, a flat-screen TV with cable channels, a kitchen, a dining area, a safety deposit box and a private bathroom with a shower and free toiletries. Each room is equipped with a kettle, while certain rooms come with a patio and others also boast pool views. At Buckleigh Guesthouse every room is equipped with bed linen and towels.
+
+                        The accommodation offers a terrace. Guests at Buckleigh Guesthouse will be able to enjoy activities in and around Durban, like skiing and cycling.
+
+                        Durban ICC is 7.1 km from the guest house, while Durban Botanic Gardens is 7.8 km from the property. The nearest airport is King Shaka International Airport, 28 km from Buckleigh Guesthouse.
+
+                        Couples particularly like the location — they rated it 9.1 for a two-person trip.
+
+                        Buckleigh Guesthouse has been welcoming Booking.com guests since 27 May 2016.
+
+                        Distance in property description is calculated using © OpenStreetMap
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>

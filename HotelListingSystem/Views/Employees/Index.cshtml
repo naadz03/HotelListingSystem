@@ -1,0 +1,190 @@
+﻿@model IEnumerable<HotelListingSystem.Models.HotelUsers>
+@using HotelListingSystem.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width" />
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>Employees | Onboarding</h1>
+            <p class="btn btn-warning back_btn" onclick="window.location.href='@Url.Action("Onboard", "Employees")'"> Onboard New Emoployee<span class="fa fa-pencil" style="margin-left:2px;" /></p>
+            <br />
+            <table class="table" width="90%" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email Address</th>
+                        <th>Designation</th>
+                        <th>MobileNumber</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <td> @Html.DisplayFor(modelItem => item.FullName) </td>
+                            <td> @Html.DisplayFor(modelItem => item.UserName) </td>
+                            <td> @Html.DisplayFor(modelItem => item.EmailAddress) </td>
+
+                            <td> @Html.DisplayFor(modelItem => item.Designation) </td>
+                            <td> @Html.DisplayFor(modelItem => item.MobileNumber) </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='/../Edit?id=@item.Id'">Edit<span class="fa fa-edit" style="margin:3px;"></span></button> |
+                                <button type="button" class="btn btn-sm btn-outline-success" onclick="window.location.href='/../Edit?id=@item.Id'">Details<span class="fa fa-info" style="margin:3px;"></span></button> |
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="window.location.href='/../Edit?id=@item.Id'">Delete<span class="fa fa-trash" style="margin:3px;"></span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email Address</th>
+                        <th>Designation</th>
+                        <th>MobileNumber</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Designation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HotelUserType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPasswordReset)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobileAppPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastPaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SystemRates)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HotelUserType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPasswordReset)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentificationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileAppPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemRates)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

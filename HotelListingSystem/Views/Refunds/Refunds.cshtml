@@ -1,0 +1,304 @@
+﻿@model HotelListingSystem.Models.RefundViewModel
+@using HotelListingSystem.Helpers
+@{
+    ViewBag.Title = "Refunds";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("_eHead")
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 70%;
+            margin-left: 15%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+
+        .main {
+        }
+    </style>
+</head>
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px;  margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1 style="margin-bottom:20px;">Legible for Refunds <span class="fa fa-check-square-o"></span></h1>
+        <div class="product-list">
+            @if (Model.Reservations.Count() > 0)
+            {
+                <table class="table" width="90%" id="example">
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Hotel Name</th>
+                        <th>Name Reserved In</th>
+                        <th>Room Type</th>
+                        <th>Check-In Date</th>
+                        <th>Check-Out Date</th>
+                        <th>Days Reserved</th>
+                        <th>Total Payable Cost</th>
+                        <th></th>
+                    </tr>
+                    <tbody>
+
+                        @foreach (var item in Model.Reservations)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@Html.DisplayFor(modelItem => item.Hotel.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.HotelUser.FullName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Room.Name)</td>
+                                <td>@Html.Raw(item.CheckInDate.ToString().Substring(0, 10))</td>
+                                <td>@Html.Raw(item.CheckOutDate.ToString().Substring(0, 10))</td>
+                                <td>@Html.Raw(String.Format($"{((int)(item.CheckOutDate - item.CheckInDate).TotalDays)} days"))</td>
+                                <td>@Html.Raw($"{item.TotalCost.ToString("C")} per day")</td>
+                                <td>
+                                    @if (DisplayHelper.IsRefundLegible(item.Id))
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-info" onclick="RefundConfirmationRoom('@item.Id', '@item.RefundTermsnConditions')">
+                                            Apply for refund
+                                            <span class="fa fa-pencil" style="margin:3px;">
+                                            </span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-warning" onclick="ElegibleForRefund()">
+                                            Elegible for refund
+                                            <span class="fa fa-info" style="margin:3px;">
+                                            </span>
+                                        </button>
+                                    }
+
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <th>Hotel Name</th>
+                            <th>Name Reserved In</th>
+                            <th>Room Type</th>
+                            <th>Check-In Date</th>
+                            <th>Check-Out Date</th>
+                            <th>Days Reserved</th>
+                            <th>Total Payable Cost</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            }
+            else
+            {
+                <hr style="width:100%;" />
+                <p class="alert alert-success" style="margin-top:25px; border-radius:8px; width:70%;">
+                    <strong style="font-size:40px; font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif"> You're  all set <span class="fa fa-check-square-o" style="margin:3px;"></span></strong><br />
+                    <strong style="font-size:20px; font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif"> You do not have any legible refunds yet.</strong>
+
+                </p>
+            }
+        </div>
+    </main>
+</body>
+
+@if (Model.Refunds.Count() > 0)
+{
+    <body style="background-color: #96969633;">
+        <main style="margin-left: 40px; margin-right: 40px; margin-top: 50px; background-color: whitesmoke; padding: 40px; border-radius: 8px; box-shadow: revert;">
+            <h1 style="margin-bottom:20px;">Refunds History<span class="fa fa-history" style="margin:6px;"></span></h1>
+            <div class="product-list">
+                <table class="table" width="90%" id="example">
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Hotel Refund</th>
+                        <th>Booking Type</th>
+                        <th>Terms & Conditions</th>
+                        <th>Request Date</th>
+                        <th>Request Status</th>
+                        <th>Refund Balance</th>
+                        <th>Days Before CheckIn</th>
+                        <th></th>
+                    </tr>
+                    <tbody>
+                        @foreach (var item in Model.Refunds)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@Html.Raw("hotel name")</td>
+                                <td>@Html.Raw(item.BookingType)</td>
+                                <td>@Html.Raw(item.TermsOfRefund)</td>
+                                <td>@Html.Raw(item.RequestDate.ToLongDateString())</td>
+                                <td>@Html.Raw(item.Status)</td>
+                                <td>@Html.Raw(item.TotalBalance.ToString("C"))</td>
+                                <td>@Html.Raw(string.Format("{0} days", item.DaysB4ChkIn))</td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-info" onclick="window.location.href='/Reservations/Details/@item.ReservationId'">
+                                        Details
+                                        <span class="fa fa-info" style="margin:3px;">
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <th>Hotel Refund</th>
+                            <th>Booking Type</th>
+                            <th>Terms & Conditions</th>
+                            <th>Request Date</th>
+                            <th>Request Status</th>
+                            <th>Refund Balance</th>
+                            <th>Days Before CheckIn</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </main>
+    </body>
+
+}
+
+
+
+
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>
+<script>
+    function ElegibleForRefund() {
+        Swal.fire('Warning!', `You're two days towards your stay, cancellation unavailable!`, 'warning').then(() => {
+            location.reload();
+        });
+    }
+
+    function RefundConfirmationRoom(Id, TcnCs) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: `${TcnCs}\nAre you sure you want to proceed?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("RefundConfirmation", "Refunds")',
+                    type: 'POST',
+                    data: { Id: Id, type: "Room refund request", confirmed: "_confirmed_" },
+                    success: function (data) {
+                        if (data) Swal.fire('Confirmed!', 'Your refund has been submited, the amount will reflect to your account within 7 day/s.', 'success').then(() => {
+                            location.reload();
+                        });
+                        else Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                $.ajax({
+                    url: '@Url.Action("RefundConfirmation", "Refunds")',
+                    type: 'POST',
+                    data: { Id: Id, type: "Room refund request", confirmed: "_cancelled_" },
+                    success: function (data) {
+                        Swal.fire('Cancelled', 'Your action has been cancelled.', 'error').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            }
+        });
+    }
+</script>

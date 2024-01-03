@@ -1,0 +1,194 @@
+﻿@model HotelListingSystem.Models.Business
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Business</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfBank)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfBank)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddressCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddressCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BusinessEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BusinessEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfOccupancyDocName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateOfOccupancyDocName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfOccupancyDocContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateOfOccupancyDocContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfOccupancyDoContentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateOfOccupancyDoContentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfOccupancyDoFileSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateOfOccupancyDoFileSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfOccupancyDocVerified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateOfOccupancyDocVerified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COADocName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COADocName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COADocContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COADocContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COADocContentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COADocContentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COADocFileSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COADocFileSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COADocVerified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COADocVerified)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

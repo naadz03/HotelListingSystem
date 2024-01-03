@@ -1,0 +1,87 @@
+﻿@model IEnumerable<HotelListingSystem.Models.HotelUsers>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+
+
+
+<head>
+    <style>
+        hr {
+            width:100%;
+        }
+    </style>
+    @Html.Partial("_eHead")
+</head>
+
+<body>
+    <main>
+        <div class="container_body">
+
+            <h2>System Users</h2>
+
+            <p>
+                @Html.ActionLink("Create New", "Create", new { id = 0 }, new { @class = "btn btn-outline-dark" })
+            </p>
+            <table class="table" id="example">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Surname</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Company</th>
+                        <th>ID/ Passport No.</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdentificationNumber)</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Surname</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Company</th>
+                        <th>ID/ Passport No.</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+               
+            </table>
+    
+        </div>
+    </main>
+</body>
+
+@Html.Partial("_eFooter")
+
+
+
+
+
+
+

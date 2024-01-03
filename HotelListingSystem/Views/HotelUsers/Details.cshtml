@@ -1,0 +1,245 @@
+﻿@model HotelListingSystem.Models.HotelUsers
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update User Details</title>
+    @Html.Partial("_eHead")
+    <style>
+        .dl-horizontal dt:not(:last-child):after {
+            content: "\A";
+            white-space: pre;
+        }
+
+        .dl-horizontal dt {
+            display: inline-block;
+            width: 120px; /* adjust as needed */
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .dl-horizontal dd {
+            display: inline-block;
+            margin-left: 0;
+            margin-right: 10px;
+        }
+
+        hr {
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container_body">
+            <div>
+                <h4>Hotel User Details</h4>
+                <hr />
+                <p><strong>First Name: </strong>@Html.DisplayFor(model => model.FirstName)</p>
+                <p><strong>Last Name: </strong>@Html.DisplayFor(model => model.LastName)</p>
+                <p><strong>Username: </strong>@Html.DisplayFor(model => model.UserName)</p>
+                <p><strong>Company: </strong>@Html.DisplayFor(model => model.CompanyName)</p>
+                <p><strong>Designation: </strong>@Html.DisplayFor(model => model.Designation)</p>
+                <p><strong>Email: </strong>@Html.DisplayFor(model => model.EmailAddress)</p>
+                <p><strong>Mobile: </strong>@Html.DisplayFor(model => model.MobileNumber)</p>
+
+                <p><strong>ID/Passport No: </strong>@Html.DisplayFor(model => model.IdentificationNumber)</p>
+                <p><strong>User Type: </strong>@Html.DisplayFor(model => model.HotelUserType)</p>
+                <p><strong>Date Created: </strong>@Html.DisplayFor(model => model.CreatedOn)</p>
+
+            </div>
+            <p>
+
+                @if (User.IsInRole("Administrator"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+                    @Html.Raw("|")
+                    @Html.ActionLink("Back to List", "Index", new { id = 0 }, new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                    if (User.IsInRole("Employee")  && Model.FaceVerified == false)
+                    {
+                        <button type="button" onclick="StratMeetingKYCModal()" class="btn btn-sm btn-outline-warning">
+                            Facial Verification
+                            <span class="fa fa-camera-retro">
+                            </span>
+                        </button>
+                        <div id="editId" style="display:none">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning" })
+                    }
+                }
+            </p>
+
+        </div>
+
+    </main>
+</body>
+
+
+<div id="SubmitModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitleText">Facial Verification - Employee</h4>
+            </div>
+            <input type="text" id="LivenessCheckId" hidden />
+            <div class="modal-body">
+                <div class="container col-md-8">
+                    <div class="form-horizontal">
+                        <div id="2nd_section">
+                            <div class="row mRow col-md-8">
+                                <div class="form-group">
+                                    <div class="alert alert-success" style=" width: 430px; font-family: ui-monospace; font-style: italic;" id="AMYAlert">
+                                        <p>Please take a clear selfie of your face</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mRow col-md-8">
+                                <div class="form-group" id="divSelfieCapture">
+                                    <video id="Selfievideo" width="480" height="380" autoplay></video>
+                                    <canvas id="Selfiecanvas" width="480" height="380" class="hidden"></canvas>
+                                </div>
+                            </div>
+                            <div class="row mRow cButtons col-md-8">
+                                <div class="form-group c_bun_vids" style="justify-content:stretch">
+                                    <button id="capture2" class="col-md-offset-2 btn btn-sm btn-outline-warning fa fa-arrow-circle-left">Capture</button>
+                                    <button id="retake2" class="btn btn-sm btn-outline-warning fa fa-arrow-circle-left hidden">Retake</button>
+                                    <button id="finishCapture" class="btn btn-sm btn-outline-warning fa fa-arrow-circle-left hidden">Proceed</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_eFooter")
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<script>
+    function StratMeetingKYCModal() {
+        $('#SubmitModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+
+
+        const selfievideoOpen = document.getElementById('Selfievideo');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                selfievideoOpen.srcObject = stream;
+            })
+            .catch((err) => {
+                console.log(`Error: ${err}`);
+            });
+
+    }
+</script>
+<script>
+    var divElement = document.getElementById("editId");
+    const selfievideo = document.getElementById('Selfievideo');
+    const canvas = document.getElementById('Selfiecanvas');
+    const retakeBtn = document.getElementById('retake2');
+    const finishCapture = document.getElementById('finishCapture');
+    const captureBtn = document.getElementById('capture2');
+    const context = canvas.getContext('2d');
+    let isUsingRearCamera = true;
+    let videoStream;
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+            selfievideo.srcObject = stream;
+            videoStream = stream;
+        })
+        .catch((err) => {
+            console.log(`Error: ${err}`);
+        });
+    // To close the video stream
+    function closeVideoStream() {
+        // Check if the stream is available
+        if (videoStream) {
+            // Get the tracks from the stream
+            const tracks = videoStream.getTracks();
+            // Stop each track
+            tracks.forEach((track) => {
+                track.stop();
+            });
+            // Reset the video stream reference
+            videoStream = null;
+        }
+    }
+    selfievideo.addEventListener('loadedmetadata', () => {
+        captureBtn.addEventListener('click', () => {
+            canvas.classList.remove('hidden');
+            retakeBtn.classList.remove('hidden');
+            finishCapture.classList.remove('hidden');
+            captureBtn.classList.add('hidden');
+            selfievideo.classList.add('hidden');
+            context.drawImage(selfievideo, 0, 0, 480, 380);
+            const imgData = canvas.toDataURL('image/png');
+            debugger;
+            document.getElementById('LivenessCheckId').value = imgData;
+            $('#LivenessCheckId').val(imgData);
+            const link = document.createElement('a');
+            link.download = 'image.png';
+            link.href = imgData;
+        });
+    });
+
+
+    retakeBtn.addEventListener('click', () => {
+        canvas.classList.add('hidden'); // hide the canvas element
+        retakeBtn.classList.add('hidden'); // hide the retake button
+        finishCapture.classList.add('hidden'); // hide the retake button
+        captureBtn.classList.remove('hidden'); // show the capture button
+        selfievideo.classList.remove('hidden'); // show the video element
+    });
+
+    finishCapture.addEventListener('click', () => {
+        closeVideoStream()
+        debugger;
+        let LiveImage = document.getElementById('LivenessCheckId').value;
+        let reservationId = '@Model.Id';
+        const paymentdiv = document.getElementById('paymentId');
+        const livenessBtn = document.getElementById('FaceIdbtn');
+        $('#SubmitModal').modal('hide');
+        $.ajax({
+            url: '@Url.Action("VerifyUserWithMXFaceAi", "HotelUsers")',
+            type: 'POST',
+            data: { UserId: '@Model.Id', Image: LiveImage },
+            success: function (data) {
+                debugger;
+                if (data) {
+                    Swal.fire('Verified', '', 'success').then(() => {
+                        divElement.style.display = "block";
+                    });
+                    
+                } else {
+                    Swal.fire('FaceID failed', 'could not verify ypur face. Please try again later. or ensure the lighting is enough.', 'warning').then(() => {
+                        location.reload();
+                    });
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.error(errorThrown);
+            }
+        })
+
+    });
+</script>

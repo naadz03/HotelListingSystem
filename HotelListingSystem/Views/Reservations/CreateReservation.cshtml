@@ -1,0 +1,127 @@
+﻿@model List<HotelListingSystem.Models.Room>
+@{
+    Layout = null;
+}
+<head>
+    <style>
+    </style>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h2>Available Hotel Rooms</h2>
+
+            @if (Model.Count > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Hotel Name</th>
+                            <th>Room Name</th>
+                            <th>No of beds</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>No. of Rooms</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var room in Model)
+                        {
+                            using (Html.BeginForm("Create", "Reservations", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <tr>
+
+                                    <td>@room.Hotel.Name</td>
+                                    <td>@room.Name</td>
+                                    <td>@room.NoOfBeds</td>
+                                    <td>
+                                        <input hidden type="text" value="@room.Id" name="Reservation.RoomId" />
+                                        <input hidden type="text" value="@room.Hotel.Id" name="Reservation.HotelId" />
+                                        <input type="date" id="checkInDate_@room.Id" name="Reservation.CheckInDate" class="form-control datepicker" required />
+                                    </td>
+                                    <td>
+                                        <input type="date" id="checkOutDate_@room.Id" name="Reservation.CheckOutDate" class="form-control datepicker" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" id="noOfRooms_@room.Id" name="Reservation.NoOfRooms" class="form-control hotelroom_@room.Id" min="1" max="@room.Sleeps." value="1" required />
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary">Reserve</button>
+                                        @*<a href="#" class="btn btn-primary" name="Reservation.CheckOutDate" onclick="reserveRoom(@room.HotelId, '@room.Name', @room.Id)">Reserve</a>*@
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No available rooms at the moment.</p>
+            }
+        </div>
+    </main>
+</body>
+
+
+
+@section scripts{
+    <script>
+        // Function to reserve a room with selected check-in and check-out dates and number of rooms
+        function reserveRoom(hotelId, roomName, roomId) {
+            var checkInDate = $('#checkInDate_' + roomId).val();
+            var checkOutDate = $('#checkOutDate_' + roomId).val();
+            var noOfRooms = $('#noOfRooms_' + roomId).val();
+
+            // Perform validation for check-in, check-out dates, and number of rooms
+            if (checkInDate === "" || checkOutDate === "") {
+                alert("Please select check-in and check-out dates.");
+                return;
+            }
+            var roomQty = $('.hotelroom_' + roomId).val();
+            if (noOfRooms < 1 || noOfRooms > roomQty) {
+                alert("Invalid number of rooms. Please select a valid number of rooms.");
+                return;
+            }
+
+            // Perform AJAX call to check room availability
+            $.ajax({
+                url: '@Url.Action("CheckRoomAvailability", "Reservations")', // Update with your controller and action method names
+                type: 'POST',
+                data: { hotelId: hotelId, checkInDate: checkInDate, checkOutDate: checkOutDate, noOfRooms: noOfRooms, roomId: roomId },
+                success: function (data) {
+                    if (data.success) {
+                        // Room is available, proceed with reservation
+                        // You can implement the reservation logic here
+                        // e.g., send another AJAX request to the server to create a reservation
+                        // with the selected room ID, check-in and check-out dates, number of rooms, etc.
+                        alert("Reservation submitted for Room: " + roomName +
+                            "\nCheck-in Date: " + checkInDate +
+                            "\nCheck-out Date: " + checkOutDate +
+                            "\nNo. of Rooms: " + noOfRooms);
+                    } else {
+                        // Room is not available, show error message
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+                }
+            });
+        }
+
+        // Initialize datepickers
+        //$(function () {
+        //    var currentDate = new Date();
+        //    $('.datepicker').datepicker({
+        //        minDate: currentDate // Restrict check-in date to be on or after the current date
+        //    });
+        //});
+    </script>
+}
+@Html.Partial("_eFooter")

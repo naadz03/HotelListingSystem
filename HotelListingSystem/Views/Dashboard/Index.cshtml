@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("_eHead")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .column {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .column-left {
+            flex: 1;
+            display: inline-block;
+            width: 80%;
+        }
+
+        .column-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-left: 10px; /* Add margin between the sections */
+            display: inline-block;
+        }
+
+        .column-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .column-body {
+            margin-bottom: 10px;
+        }
+
+        .column-icon {
+            margin-left: 10px;
+        }
+
+        /* Custom background colors for each column */
+        .column:nth-child(1) {
+            background-color: #f1c40f; /* Yellow */
+        }
+
+        .column:nth-child(2) {
+            background-color: mediumpurple; /* Blue */
+        }
+
+        .column:nth-child(3) {
+            background-color: cornflowerblue; /* Red */
+        }
+
+        /* Make the entire column clickable */
+        .column a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: black;
+        }
+
+        .column-body p {
+            color: #212121;
+        }
+
+
+        .alert-info {
+            text-align: center;
+            border-radius: 8px;
+            width: 70%;
+            padding: 10px 0 10px 0;
+        }
+
+        main {
+            background-image: url('../../content/dashboard/img/marketing-bg6-300x158.png');
+            background-size: contain;
+        }
+        container {
+            max-width: 1188px;
+        }
+        /*.fa-users {
+            float: right;
+            font-size: 30px;*/ /* Adjust the size as needed */
+        /* Optional: Add some margin to create space between the icon and other elements */
+        /*margin-left: 10px;
+        }*/
+    </style>
+</head>
+<body >
+    <main>
+        <div class="container" style="display: flex; justify-content: center; align-items: center; height: 15vh;">
+            <div class="alert-info">
+                <h1>Dashboard</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <a href="../Employees/Index">
+                    <div class="column-left">
+                        <h3 class="column-header">Employees</h3>
+                        <div class="column-body">
+                            <p>Employees and Add </p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-users" style="font-size:70px" />
+                        @*<i class="fa fa-users"></i>*@
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <a href="../Rides/Index">
+                    <div class="column-left">
+                        <h3 class="column-header">Transportation</h3>
+                        <div class="column-body">
+                            <p>Ride History and Vehicles</p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-cab" style="font-size:60px" />
+                        @*<i class="fa fa-users"></i>*@
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <a href="../Inventory/Index">
+                    <div class="column-left">
+                        <h3 class="column-header">Inventory</h3>
+                        <div class="column-body">
+                            <p>Inventory and Products</p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-product-hunt" style="font-size:60px" />
+                        @*<i class="fa fa-users"></i>*@
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <a href="../../">
+                    <div class="column-left">
+                        <h3 class="column-header">Drivers</h3>
+                        <div class="column-body">
+                            <p>Add drivers, View Trips</p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-car" style="font-size:60px" />
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <a href="/Cupons">
+                    <div class="column-left">
+                        <h3 class="column-header">Cupons</h3>
+                        <div class="column-body">
+                            <p>Add, update cupons </p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-money" style="font-size:60px" />
+                    </div>
+                </a>
+            </div>
+
+            <div class="column">
+                <a href="/Tour360Request">
+                    <div class="column-left">
+                        <h3 class="column-header">360 Tour </h3>
+                        <div class="column-body">
+                            <p>Create a virtual tour </p>
+                        </div>
+                    </div>
+                    <div class="column-right">
+                        <span class="fa fa-map" style="font-size:60px" />
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </main>
+</body>
+</html>

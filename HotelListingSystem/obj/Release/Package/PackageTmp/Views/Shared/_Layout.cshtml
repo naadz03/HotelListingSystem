@@ -1,0 +1,177 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Listings System</title>
+
+    @*<script src="~/Scripts/jquery-3.4.1.js"></script>*@
+    <script src="~/Scripts/jquery-2.2.0.js"></script>
+    <link href="~/Content/HoldOn.min.css" rel="stylesheet" />
+    <script src="~/Scripts/HoldOn.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("Hotel Listings System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+
+                <ul class="navbar-nav flex-grow-1" style="list-style-type:none">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>
+                        <div class="dropdown nav-link" style="width: max-content;">
+                            <a style="color: darkgrey;text-decoration: none;">Options</a>
+                            <div class="dropdown-content">
+                                <ul style="list-style-type:none;margin-left: -32px;">
+                                    @if (User.IsInRole("Administrator") || User.IsInRole("Business Owner"))
+                                    {
+
+                                        <li>@Html.ActionLink("Dining", "Index", "Dinings", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Tables", "Index", "DiningTableTypes", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Meals", "Index", "MealTypes", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Dining Reservations", "Index", "DiningReservations", new { area = "" }, new { @class = "nav-link" })</li>
+
+                                    }
+                                    @if (User.IsInRole("Receptionist") || User.IsInRole("Administrator"))
+                                    {
+                                        <li>@Html.ActionLink("Hotels", "MyHotels", "Hotels", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Hotel Payment", "HotelPayment", "Hotels", new { area = "" }, new { @class = "nav-link" })</li>
+                                    }
+                                    @if ((User.IsInRole("Business Owner") && HotelListingSystem.Models.AppHelper.IsVerifiedHotel(User.Identity.Name) == true) || User.IsInRole("Administrator"))
+                                    {
+                                        <li>@Html.ActionLink("My Profile", "Details", "HotelUsers", new { area = "", id = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("My Hotels", "MyHotels", "Hotels", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Add Receptionist", "AddUserToReceptionist", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                                    }
+                                    @if (User.IsInRole("Customer") || User.IsInRole("Administrator"))
+                                    {
+                                        <li>@Html.ActionLink("Find Hotels", "FindHotel", "Hotels", new { area = "" }, new { @class = "nav-link" })</li>
+                                        @*<li>@Html.ActionLink("Hotel Reservation", "CreateReservation", "Reservations", new { area = "" }, new { @class = "nav-link" })</li>*@
+                                        <li>@Html.ActionLink("Dining Reservation", "Index", "DiningReservations", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("My Reservations", "MyReservations", "Reservations", new { area = "" }, new { @class = "nav-link" })</li>
+                                        <li>@Html.ActionLink("Rating", "ResReview", "Reservations", new { area = "" }, new { @class = "nav-link" })</li>
+
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Hotel Listings System</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+<script src="https://dash.accessibly.app/widget/8c748486-af3b-4df5-aa1d-d42be933894b/autoload.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+    var delay = 0;
+    var offset = 150;
+
+    //$(document).ready(function () {
+    //    HoldOn.open({
+    //        message: 'Loading..Please Wait',
+    //        textColor: "white",
+    //    });
+    //});
+
+    //$(document).on('submit', 'form', function () {
+    //    HoldOn.open({
+    //        message: 'Loading..Please Wait',
+    //        textColor: "white"
+    //    });
+    //});
+
+    //$(document).on('invalid-form.validate', 'form', function () {
+    //    HoldOn.close();
+    //});
+
+    //$(window).load(function () { HoldOn.close(); });
+
+    //$(document).ajaxStart(function () {
+    //    HoldOn.open({
+    //        message: 'Loading..Please Wait',
+    //        textColor: "white"
+    //    });
+    //});
+
+    //$(document).ajaxStop(function () {
+    //    HoldOn.close();
+    //});
+
+    //document.addEventListener('invalid', function (e) {
+    //    $(e.target).addClass("invalid");
+    //    $('html, body').animate({ scrollTop: $($(".invalid")[0]).offset().top - offset }, delay);
+    //}, true);
+    //document.addEventListener('change', function (e) {
+    //    $(e.target).removeClass("invalid");
+    //}, true);
+</script>

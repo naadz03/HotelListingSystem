@@ -1,0 +1,309 @@
+﻿@model IEnumerable<IGrouping<int, HotelListingSystem.Models.Hotel>>
+@using HotelListingSystem.Models
+
+@{
+    Layout = null;
+}
+@{
+    DateTime now = DateTime.Now;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>Travix Service Payments</h1>
+            <p>
+                @Html.ActionLink("Monthly Payment History", "ServicePayments", "Payments", new { @class = "btn btn-outline-warning" })
+            </p>
+            <br />
+            <table class="table" width="90%" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>OWNER</th>
+                        <th>HOTEL</th>
+                        <th>PAYMENT DUE DATE</th>
+                        <th>UPDATED DATE</th>
+                        <th>AMOUNT DUE</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        IGrouping<int, HotelListingSystem.Models.Hotel> notNullable = item;
+                        int groupId = notNullable.Key;
+                        List<HotelListingSystem.Models.Hotel> hotels = notNullable.ToList();
+                        bool YouGotAPriceToPay = (hotels.FirstOrDefault(a => a.AmountOwed > 1) != null) ? true : false;
+                        if (item.First().IsBlackListed || YouGotAPriceToPay)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@Html.DisplayFor(modelItem => item.First().HotelUser.FullName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.First().Name)</td>
+                                <td>@Html.Raw(new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month), 23, 59, 59))</td>
+                                <td>@Html.Raw((item.First().ModifiedDate == null) ? "No updated date" : item.First().ModifiedDate.ToString())</td>
+                                <td>@Html.Raw(item.First().AmountOwed.ToString("C"))</td>
+                                <td>
+                                    @if (!User.IsInRole("Administrator"))
+                                    {
+                                        <button class="btn btn-outline-warning" onclick="PaySystemFeesSingle('@item.First().HotelUserId', '@item.First().Id', '@item.First().AmountOwed.ToString().Replace(',','.')', '@item.First().Name')">Debi/Credi Pay Now</button>
+                                    }
+                                    else
+                                    {
+                                        if (item.First().AmountOwed == 0)
+                                        {
+                                            <button class="btn btn-outline-success" onclick="WhitelistHotel('@item.First().Id')">Whitelist Now</button>
+                                        }
+                                        else
+                                        {
+                                            if (item.First().IsNotified)
+                                            {
+                                                <button class="btn btn-outline-danger" onclick="Blacklisthotel('@item.First().Id')">Blacklist Now</button>
+                                            }
+                                            else if (item.First().AmountOwed > 1 && (DateTime)item.First().HotelUser.LastPaymentDate < DateTime.Now.AddDays(-30))
+                                            {
+                                                <button class="btn btn-outline-warning" onclick="BlacklistNoticeMail('@item.First().Id')">Send Blacklist Notice</button>
+                                            }
+
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>OWNER</th>
+                        <th>HOTEL</th>
+                        <th>PAYMENT DUE DATE</th>
+                        <th>UPDATED DATE</th>
+                        <th>AMOUNT DUE</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+            @if (Model.First().Count() > 0 && !User.IsInRole("Administrator"))
+            {
+                <br />
+                <table class="table" width="90%" id="exampleId">
+                    <thead>
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <th>FULL NAME</th>
+                            <th>NUMBER OF HOTELS</th>
+                            <th>PAYMENT DUE DATE</th>
+                            <th>UPDATED DATE</th>
+                            <th>SUM AMOUNT DUE</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td></td>
+                            <td>@Html.DisplayFor(modelItem => Model.First().First().HotelUser.FullName)</td>
+                            <td>@Html.Raw(Model.First().Count())</td>
+                            <td>@Html.Raw(new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month), 23, 59, 59))</td>
+                            <td>@Html.Raw((Model.First().First().HotelUser.LastPaymentDate == null) ? "No payment made" : Model.First().First().HotelUser.LastPaymentDate.ToString())</td>
+                            <td>@Html.Raw(((Model.First().First().HotelUser.SystemRates == null ? 0 : (decimal)Model.First().First().HotelUser.SystemRates).ToString("C")))</td>
+                            <td>
+                                <button id="BulkPaymentId" class="btn btn-outline-warning">Bulk Debi/Credi Pay Now</button>
+                                @*@Html.ActionLink(" Bulk Debi/Credi Pay Now", "CustomerQueryDetails", "CustomerQuery", new { Id = 0 }, new { @class = "btn btn-outline-warning", @Id = "BulkPaymentId" })*@
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>ㅤㅤㅤㅤㅤ</th>
+                            <th>FULL NAME</th>
+                            <th>NUMBER OF HOTELS</th>
+                            <th>PAYMENT DUE DATE</th>
+                            <th>UPDATED DATE</th>
+                            <th>SUM AMOUNT DUE</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>
+<script>
+    function BlacklistNoticeMail(id ) {
+     $.ajax({
+            url: '@Url.Action("SendBlacklistEmail", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('Your email has been sent out successfully.');
+                } else {
+                    alert('An error occured while trying to send your email, please try again.');
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+    function Blacklisthotel(id ) {
+     $.ajax({
+            url: '@Url.Action("Blacklisthotel", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('The hotel has been blacklisted. an email was sent to the owner/receptionist')
+                    window.location.reloa();
+                } else {
+                    alert('An error occured while trying to send your email, please try again.')
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+    function WhitelistHotel(id ) {
+     $.ajax({
+            url: '@Url.Action("WhitelistHotel", "Payments")', // Update with your controller and action method names
+            type: 'POST',
+            data: { id: id},
+            success: function (data) {
+                if (data) {
+                    alert('The hotel has been whitelisted. an email was sent to the owner/receptionist')
+                    window.location.reloa();
+                } else {
+                    alert('An error occured while trying to send your email, please try again.')
+                }
+                window.location.reloa();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+</script>
+
+@*//Include the Yoco SDK in your web page*@
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+@*Create a pay button that will open the popup
+    <button id="checkout-button">Pay</button>*@
+
+<script type="text/javascript">
+    var yoco = new window.YocoSDK({
+
+        publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+    });
+    var checkoutButton = document.querySelector('#BulkPaymentId');
+    checkoutButton.addEventListener('click', function () {
+        debugger
+        let amount = '@ViewBag.Amount';
+        amount = amount * 100;
+        if (amount > 1) {
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: 'Bulk Payment: paying @Model.Count() hotels',
+                description: 'Awesome description',
+                callback: function (result) {
+                    debugger;
+                    // This function returns a token that your server can use to capture a payment
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                        debugger;
+                        $.ajax({
+                            url: '@Url.Action("PaySystemFeesBulk", "Payments")',
+                            type: 'POST',
+                            data: { id: '@ViewBag.Ownerid', yocco_ref: result.id },
+                            success: function (data) {
+                                if (!data) {
+                                    alert('An error has occurd!');
+                                } else {
+                                    alert('Hi @ViewBag.FullName, thank you for your payment')
+                                }
+                                window.location.reload();
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error(errorThrown);
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            aler('Invalid amount.')
+        }
+    });
+
+
+    function PaySystemFeesSingle(id, hotelId, amount, subject) {
+        debugger
+        amount = amount * 100;
+        if (amount > 1) {
+            yoco.showPopup({
+                amountInCents: amount,
+                currency: 'ZAR',
+                name: 'Single Payment: ' + subject,
+                description: 'Awesome description',
+                callback: function (result) {
+                    debugger;
+                    if (result.error) {
+                        const errorMessage = result.error.message;
+                        alert("error occured: " + errorMessage);
+                    } else {
+                         debugger;
+                        $.ajax({
+                            url: '@Url.Action("PaySystemFeesSingle", "Payments")',
+                            type: 'POST',
+                            data: { id: id, HotelId: hotelId, yocco_ref: result.id },
+                            success: function (data) {
+                                if (!data) {
+                                    alert('An error has occurd!');
+                                } else {
+                                    alert('Hi @ViewBag.FullName, thank you for your payment')
+                                    window.location.reload();
+                                }
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.error(errorThrown);
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    }
+
+
+</script>

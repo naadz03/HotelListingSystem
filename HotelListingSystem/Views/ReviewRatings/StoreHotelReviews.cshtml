@@ -1,0 +1,357 @@
+﻿@model IEnumerable<HotelListingSystem.Models.ReviewRating>
+@{
+    ViewBag.Title = "StoreHotelReviews";
+    Layout = null;
+}
+
+
+<head>
+    @Html.Partial("_eHead")
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Your custom styles here */
+    </style>
+</head>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<html>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #f8f6fd, #e4e0f7);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        align-items: flex-start;
+        width: 100%; /* Make the cards take up full width */
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-header {
+        background-color: #350a4e;
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        width: 100%;
+    }
+
+    .rating {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 28px;
+        color: #999; /* Use a more subdued color for the stars */
+        margin-top: 10px;
+    }
+
+    .star {
+        display: inline-block;
+        font-size: 24px; /* Adjust the star size */
+        color: #999; /* Use the same subdued color as above */
+        margin: 0 2px;
+    }
+
+        .star.filled {
+            color: #FFD700; /* Change the filled star color to gold */
+        }
+
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-text-a {
+        margin: 13px 0;
+        color: #333; /* Darken the text color for better contrast */
+        font-size: 18px; /* Increase the font size for better readability */
+        line-height: 1.5; /* Add some line spacing for improved readability */
+        text-align: justify; /* Justify the text for a cleaner look */
+    }
+
+    .card-text {
+        margin: 13px 0;
+        color: #444;
+        font-size: 18px;
+        line-height: 1.6;
+        text-align: justify;
+        padding: 10px; /* Add padding to create separation from the card edges */
+        background-color: #f8f8f8; /* Add a light background color */
+        border-radius: 8px; /* Add rounded corners to the card text */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+        transition: background-color 0.3s, transform 0.2s; /* Add smooth transitions */
+        width: fit-content;
+    }
+
+        .card-text:hover {
+            background-color: #f0f0f0; /* Lighten the background color on hover */
+            transform: translateY(-2px); /* Slightly lift the text on hover */
+        }
+
+
+
+    .text-muted {
+        color: #777;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8; /* Set a background color for the page */
+        position: relative;
+    }
+
+    /* Create the diagonal stripes */
+    .side-stripes {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+    }
+
+    .stripe {
+        position: absolute;
+        width: 20px; /* Adjust the stripe width as needed */
+        height: 100%;
+        background: repeating-linear-gradient( 45deg, transparent, transparent 10px, #e4e0f7 10px, /* Use the same color as your card background */
+        #e4e0f7 20px /* Adjust the stripe color and size as needed */
+        );
+    }
+
+        .stripe:nth-child(odd) {
+            transform: translateY(10px); /* Offset odd stripes */
+        }
+
+    .rating-selection {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .review-value {
+        padding: 10px 20px;
+        background-color: lavender;
+        color: #777;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        margin: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .review-value:hover {
+            background-color: #d1d1e0;
+            color: #555;
+        }
+
+    .filter-panel {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        margin: 20px;
+    }
+
+    .filter-button {
+        padding: 5px 10px;
+        margin: 5px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-button:hover {
+            background-color: #0056b3;
+        }
+
+    /* Hide the filter options by default */
+    .rating-container {
+        text-align: center;
+        margin: 20px;
+        display: none;
+    }
+
+    /* Show the filter options when a filter button is clicked */
+    .show-filter {
+        display: block;
+    }
+</style>
+
+
+<body>
+
+    <!-- Add more stripes if needed -->
+
+
+
+    <div class="container" style="margin-top: 100px">
+        <div id="reviews-container">
+
+            <div class="filter-panel">
+                <div class="rating-selection">
+                    <label for="rating-sort">Sort by Rating:</label>
+                    <button class="review-value" data-value="1">1 Star</button>
+                    <button class="review-value" data-value="2">2 Stars</button>
+                    <button class="review-value" data-value="3">3 Stars</button>
+                    <button class="review-value" data-value="4">4 Stars</button>
+                    <button class="review-value" data-value="5">5 Stars</button>
+                </div>
+            </div>
+
+           
+
+            <div class="date-search">
+                <label for="search-start-date">Start Date:</label>
+                <input type="date" id="search-start-date">
+                <label for="search-end-date">End Date:</label>
+                <input type="date" id="search-end-date">
+                <button id="search-button">Search</button>
+            </div>
+
+
+            @foreach (var review in ViewBag.Reviews)
+            {
+                <!-- Align the row to the left -->
+                <div class="col-md-6" style="max-width: 100%;">
+                    <div class="card mb-3" data-rating="@review.Rating" data-review-date="@review.CreatedAt">
+
+                        <div class="card-header">
+                            <div class="rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= review.Rating)
+                                    {
+                                        <span class="star filled">&#9733;</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="star">&#9734;</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text-a">@review.Review</p>
+                            <p class="card-text"><small class="text-muted">Created At: @review.CreatedAt</small></p>
+                            <p class="card-text"><small class="text-muted">Reviewed by: @ViewBag.UsernamesDictionary[review.ReviewerId]</small></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</body>
+
+<footer>
+    @Html.Partial("_eFooter")
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to filter reviews by date range and star ratings
+        function filterByDateAndRating(startDate, endDate, selectedRating) {
+            $('.card').each(function () {
+                var reviewDate = new Date($(this).data('review-date'));
+                var rating = parseInt($(this).data('rating'));
+
+                var dateCondition = (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) || (reviewDate >= startDate && reviewDate <= endDate);
+                var ratingCondition = (isNaN(selectedRating) || rating === selectedRating);
+
+                if (dateCondition && ratingCondition) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Click event handler for the "Search" button
+        $("#search-button").click(function () {
+            var startDateString = $("#search-start-date").val();
+            var endDateString = $("#search-end-date").val();
+            var selectedRating = parseInt($(".review-value.active").data("value"));
+
+            var startDate = new Date(startDateString);
+            var endDate = new Date(endDateString);
+
+            filterByDateAndRating(startDate, endDate, selectedRating);
+        });
+
+        // Click event handler for star rating filters
+        $(".review-value").click(function () {
+            $(".review-value").removeClass("active");
+            $(this).addClass("active");
+
+            var startDateString = $("#search-start-date").val();
+            var endDateString = $("#search-end-date").val();
+            var selectedRating = parseInt($(this).data("value"));
+
+            var startDate = new Date(startDateString);
+            var endDate = new Date(endDateString);
+
+            filterByDateAndRating(startDate, endDate, selectedRating);
+        });
+
+        
+    });
+
+    $(document).ready(function () {
+        // Function to filter reviews by date range
+        function filterByDateRange(startDate, endDate) {
+            $('.card').each(function () {
+                var reviewDate = new Date($(this).data('review-date'));
+
+                if ((isNaN(startDate.getTime()) || isNaN(endDate.getTime())) || (reviewDate >= startDate && reviewDate <= endDate)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Click event handler for the "Search" button
+        $("#search-button").click(function () {
+            var startDateString = $("#search-start-date").val();
+            var endDateString = $("#search-end-date").val();
+
+            var startDate = new Date(startDateString);
+            var endDate = new Date(endDateString);
+
+            filterByDateRange(startDate, endDate);
+        });
+
+        // Rest of your code...
+    });
+
+
+</script>
+</html>

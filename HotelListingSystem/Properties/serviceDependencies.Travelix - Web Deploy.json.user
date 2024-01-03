@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "mssql4": {
+      "restored": true,
+      "restoreTime": "2023-11-02T09:03:49.3888904Z"
+    }
+  },
+  "parameters": {
+    "mssql4.resourceGroupName": {
+      "Name": "mssql4.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "Group23Travelix"
+    },
+    "mssql4.subscriptionId": {
+      "Name": "mssql4.subscriptionId",
+      "Type": "subscription",
+      "Value": "6228d1c0-de61-4fbd-9495-aa66bebacbdb"
+    }
+  }
+}

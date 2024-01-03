@@ -1,0 +1,46 @@
+﻿@model List<HotelListingSystem.Models.ReviewRating>
+
+<h2>Review Ratings</h2>
+
+<table class="table">
+    <tr>
+        <th>Hotel Name</th>
+        <th>Reviewer ID</th>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Created At</th>
+        <th>Average Rating</th>
+        <th>Sum of Ratings</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Hotel.Name</td>
+            <td>@item.ReviewerId</td>
+            <td>@item.Rating</td>
+            <td>@item.Review</td>
+            <td>@item.CreatedAt</td>
+            <td>
+                @if (item.Hotel.AverageRating > 0)
+                {
+                    <div class="star-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star @(i <= item.Hotel.AverageRating ? "filled" : "empty")"></span>
+                        }
+                    </div>
+                    <span class="average-rating">@item.Hotel.AverageRating.ToString("N1")</span>
+                }
+                else
+                {
+
+                }
+            </td>
+
+        </tr>
+    }
+</table>
+
+<style>
+    /* CSS styles for star ratings (same as before) */
+</style>

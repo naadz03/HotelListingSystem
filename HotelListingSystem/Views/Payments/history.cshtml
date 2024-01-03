@@ -1,0 +1,80 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Payment>
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>payment history</h1>
+            <p>
+                <input type="button" value="Previeous" onclick="window.location.href='/reservations/index'" class="btn btn-sm btn-primary" />
+            </p>
+            <br />
+            <table class="table" width="90%" id="example">
+                <tr>
+                    <th>ㅤㅤㅤㅤㅤ</th>
+                    <th>Invoice Number</th>
+                    <th>Payment Method</th>
+                    <th>Payment Date</th>
+                    <th>Hotel Name</th>
+                    <th>Payment By</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td></td>
+                        <td>@Html.DisplayFor(modelItem => item.InvoiceNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
+                        <td>@Html.Raw(item.CreatedDateTime.ToString().Substring(0, 10))</td>
+                        <td>@Html.DisplayFor(modelItem => item.Reservation.Hotel.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HotelUser.FullName)</td>
+                        <td>@Html.Raw(item.Amount.ToString("C"))</td>
+                        <td>
+                            @Html.ActionLink("View Receipt", "ReceiptDetails", new { id = item.Id }, new { @class = "btn btn-sm btn-info" })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>Invoice Number</th>
+                        <th>Payment Method</th>
+                        <th>Payment Date</th>
+                        <th>Hotel Name</th>
+                        <th>Payment By</th>
+                        <th>Amount</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>

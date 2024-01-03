@@ -1,0 +1,159 @@
+﻿@model HotelListingSystem.Models.Hotel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.css">
+    <link href="https://preview.colorlib.com/theme/travelix/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="https://preview.colorlib.com/theme/travelix/styles/responsive.css">
+    <script defer="" referrerpolicy="origin" src="https://preview.colorlib.com/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyVHJhdmVsaXglMjIlMkMlMjJ4JTIyJTNBMC45MzA1Mjc0NDk4Mjk3MzE2JTJDJTIydyUyMiUzQTE1MzYlMkMlMjJoJTIyJTNBODY0JTJDJTIyaiUyMiUzQTQ5MiUyQyUyMmUlMjIlM0ExNTM2JTJDJTIybCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkZ0aGVtZSUyRnRyYXZlbGl4JTJGJTIyJTJDJTIyciUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGcHJldmlldy5jb2xvcmxpYi5jb20lMkYlMjIlMkMlMjJrJTIyJTNBMjQlMkMlMjJuJTIyJTNBJTIyVVRGLTglMjIlMkMlMjJvJTIyJTNBLTEyMCUyQyUyMnElMjIlM0ElNUIlNUQlN0Q="></script>
+    <script nonce="c7fcf528-52c2-46a1-8687-57b3181fb929">
+        (function (w, d) {
+            ! function (a, b, c, d) {
+                a[c] = a[c] || {};
+                a[c].executed = [];
+                a.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                a.zaraz.q = [];
+                a.zaraz._f = function (e) {
+                    return function () {
+                        var f = Array.prototype.slice.call(arguments);
+                        a.zaraz.q.push({
+                            m: e,
+                            a: f
+                        })
+                    }
+                };
+                for (const g of ["track", "set", "debug"]) a.zaraz[g] = a.zaraz._f(g);
+                a.zaraz.init = () => {
+                    var h = b.getElementsByTagName(d)[0],
+                        i = b.createElement(d),
+                        j = b.getElementsByTagName("title")[0];
+                    j && (a[c].t = b.getElementsByTagName("title")[0].text);
+                    a[c].x = Math.random();
+                    a[c].w = a.screen.width;
+                    a[c].h = a.screen.height;
+                    a[c].j = a.innerHeight;
+                    a[c].e = a.innerWidth;
+                    a[c].l = a.location.href;
+                    a[c].r = b.referrer;
+                    a[c].k = a.screen.colorDepth;
+                    a[c].n = b.characterSet;
+                    a[c].o = (new Date).getTimezoneOffset();
+                    if (a.dataLayer)
+                        for (const n of Object.entries(Object.entries(dataLayer).reduce(((o, p) => ({
+                            ...o[1],
+                            ...p[1]
+                        }))))) zaraz.set(n[0], n[1], {
+                            scope: "page"
+                        });
+                    a[c].q = [];
+                    for (; a.zaraz.q.length;) {
+                        const q = a.zaraz.q.shift();
+                        a[c].q.push(q)
+                    }
+                    i.defer = !0;
+                    for (const r of [localStorage, sessionStorage]) Object.keys(r || {}).filter((t => t.startsWith("_zaraz_"))).forEach((s => {
+                        try {
+                            a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s))
+                        } catch {
+                            a[c]["z_" + s.slice(7)] = r.getItem(s)
+                        }
+                    }));
+                    i.referrerPolicy = "origin";
+                    i.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    h.parentNode.insertBefore(i, h)
+                };
+                ["complete", "interactive"].includes(b.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document);
+    </script>
+    @Html.Partial("_eHead")
+</head>
+<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v2b4487d741ca48dcbadcaf954e159fc61680799950996" integrity="sha512-D/jdE0CypeVxFadTejKGTzmwyV10c1pxZk/AqjJuZbaJwGMyNHY3q/mTPWqMUnFACfCTunhZUVcd4cV78dK1pQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;7ba67c59f8dc0392&quot;,&quot;token&quot;:&quot;cd0b4b3a733644fc843ef0b185f98241&quot;,&quot;version&quot;:&quot;2023.3.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/jquery-3.2.1.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/easing/easing.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/styles/bootstrap4/popper.js"></script>
+<script src="https://preview.colorlib.com/theme/travelix/js/custom.js"></script>sss
+<body>
+    <div class="container_body" style="margin-bottom:0px;">
+        <div class="PageBody" id="PageBody">
+            <div class="form-group col-md-12" style="display:inline-grid" >
+                @Html.HiddenFor(model=>model.Id, new {@Id="Hotel_Id"})
+                @Html.Label("Layout Template")
+                @Html.DropDownList("Layouts", null, htmlAttributes: new { @class = "form-control col-md-3", @Id = "LayoutId", @onchange = "changeLayout(this.value);" })
+                <button class="button_see_holtel" onclick="SaveLayout()">Save Layout</button>
+            </div>
+        </div>  
+    </div>
+    @if (ViewBag.Layout != null)    
+    {
+
+    }
+    else
+    {
+
+    }
+    <div id="layout1">
+        @Html.Partial("_defaultLayout", Model)
+    </div>
+    <div id="layout2">
+
+        @Html.Partial("_hotelLayout2", Model)
+    </div>
+
+
+
+    @Html.Partial("_eFooter")
+</body>
+<script>
+    $(document).ready(function () {
+        $("#layout2").hide();
+        $("#layout1").hide();
+    });
+    function changeLayout(val) {
+        debugger;
+        if (val == "_layout_2") {
+            $("#layout2").show();
+            $("#layout1").hide();
+        } else if (val == "_layout1") {
+
+        } else {
+            $("#layout2").hide();
+            $("#layout1").show();
+        }
+    }
+    function SaveLayout() {
+        debugger;
+        const Layout = document.getElementById("LayoutId").value;
+        const HotelId = document.getElementById("Hotel_Id").value;
+         $.ajax({
+                url: '@Url.Action("UpdateHotelLayout", "Hotels")', // Update with your controller and action method names
+                type: 'POST',
+             data: { Id: HotelId, LayoutKey: Layout },
+                success: function (data) {
+                    if (data) {
+                        alert('The Hotel Layout template has been updated.');
+                        window.location.href = '/hotels/myhotels';
+                    } else {
+                        // Room is not available, show error message
+                        alert(data);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+                }
+            })
+    }
+</script>

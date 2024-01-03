@@ -1,0 +1,136 @@
+﻿@model HotelListingSystem.Models.Hotel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Hotel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HotelUser.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HotelUser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxOccupancy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxOccupancy)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddress5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddress5)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhysicalAddressCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhysicalAddressCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HotelImageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HotelImageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HotelImageContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HotelImageContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HotelImageContentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HotelImageContentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HotelImageFileSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HotelImageFileSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsVerified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsVerified)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

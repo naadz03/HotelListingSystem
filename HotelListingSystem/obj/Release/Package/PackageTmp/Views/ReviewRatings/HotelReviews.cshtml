@@ -1,0 +1,29 @@
+﻿@model IEnumerable<HotelListingSystem.Models.ReviewRating>
+
+<h2>Reviews for @Model.FirstOrDefault()?.Hotel.Name</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>Rating</th>
+            <th>Review</th>
+            <th>Reviewer</th>
+            <th>Submitted On</th>
+        </tr>
+        @foreach (var reviewRating in Model)
+        {
+            <tr>
+                <td>@reviewRating.Rating</td>
+
+                <td>@reviewRating.Review</td>
+                <td>@reviewRating.ReviewerId</td>
+                <td>@reviewRating.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No reviews available for this hotel.</p>
+}

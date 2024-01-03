@@ -1,0 +1,226 @@
+﻿@model HotelListingSystem.Models.ReviewRating
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<head>
+
+
+    @Html.Partial("_eHead")
+    <style>
+
+        .contact_form_container {
+            padding-top: 0px;
+            padding-left: 0px;
+            padding-right: 48px;
+            padding-bottom: 88px;
+            background: linear-gradient(to top right, #EF32D9, #89FFFD );
+            .rating
+
+        {
+            float: left;
+        }
+
+
+        .rating:not(:checked) > input {
+            position: absolute;
+            top: -9999px;
+        }
+
+        .rating:not(:checked) > label {
+            float: right;
+            width: 18px;
+            padding: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 200%;
+            line-height: 1.2;
+            color: #ddd;
+        }
+
+            .rating:not(:checked) > label:before {
+                content: '★ ';
+            }
+
+        .rating > input:checked ~ label {
+            color: #f70;
+        }
+
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: gold;
+        }
+
+        .rating > input:checked + label:hover,
+        .rating > input:checked ~ label:hover,
+        .rating > label:hover ~ input:checked ~ label,
+        .rating > input:checked ~ label:hover ~ label {
+            color: #ea0;
+        }
+
+        .rating > label:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
+        }
+
+        /* Additional styling for form elements */
+        label.control-label {
+            color: #6B5B95;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #6B5B95;
+            border-color: #6B5B95;
+        }
+
+            .btn-primary:hover {
+                background-color: #563d7c;
+                border-color: #563d7c;
+            }
+
+        .rating {
+            float: left;
+            margin-top: 10px; /* Add some space above the star ratings */
+            margin-bottom: 20px; /* Add some space below the star ratings */
+            line-height: 34px; /* Match the line height to align with the textboxes */
+        }
+
+        /* Adjustments for ratings text box */
+        input[type="number"].form-control {
+            max-width: 40px; /* Limit the width of the ratings text box */
+            margin-top: 10px; /* Add some space above the ratings text box */
+        }
+
+        /* Adjustments for review textbox */
+        textarea.form-control {
+            max-width: 50%; /* Allow the review textbox to expand to full width */
+            max-height: 150px; /* Limit the height of the review textbox */
+            margin-top: 10px; /* Add some space above the review textbox */
+        }
+
+
+        .center-content {
+            text-align: center;
+            margin: auto;
+        }
+
+        .control-label {
+            color: white; /* Set the text color to white */
+            font-size: 18px; /* Adjust the font size */
+            font-weight: bold; /* Make the font bold */
+        }
+    </style>
+</head>
+
+<h2 style="font-family: 'Georgia', serif; color: #6B5B95;">Please rate us</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <body class="contact_form_container ">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+
+
+
+        <div class="container-fluid" style="padding-left:480px; color:aliceblue;">
+            <label class="control-label col-md-2">Star Rating</label>
+            <div class="col-md-10">
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="5 stars"></label>
+                    <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="4.5 stars"></label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="4 stars"></label>
+                    <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="3.5 stars"></label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="3 stars"></label>
+                    <input type="radio" id="star2half" name="rating" value="2.5" /><label class="half" for="star2half" title="2.5 stars"></label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="2 stars"></label>
+                    <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="1.5 stars"></label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="1 star"></label>
+                    <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="0.5 stars"></label>
+                </fieldset>
+            </div>
+        </div>
+
+
+
+
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+            <label class="control-label col-md-2" style="padding-left:500px; color:aliceblue;">Rating</label>
+            <div class="col-md-10" style="padding-left: 500px">
+                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "5", @step = "0.5" } })
+                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+            </div>
+
+
+
+
+            <div class="col-md-10" style="padding-left:500px; color:aliceblue;">
+                @Html.LabelFor(model => model.Review, htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.Review, new { @class = "form-control", @rows = "4" })
+                @Html.ValidationMessageFor(model => model.Review, "", new { @class = "text-danger" })
+            </div>
+
+
+
+        </div>
+
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.HotelId)
+        </div>
+
+
+
+        <br />
+        <div class="form-group text-center">
+            <!-- Use text-center class to center-align content -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+
+
+    </body>
+}
+
+
+<script>
+    $(document).ready(function () {
+        // Event handler for radio button click
+        $("input[name='rating']").change(function () {
+            // Get the selected rating value
+            var ratingValue = $("input[name='rating']:checked").val();
+            // Set the value to the hidden field for the ReviewRating model
+            $("#Rating").val(ratingValue);
+        });
+    });
+
+
+</script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+
+}
+
+

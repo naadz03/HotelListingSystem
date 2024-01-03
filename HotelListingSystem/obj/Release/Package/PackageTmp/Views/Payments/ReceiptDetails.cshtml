@@ -1,0 +1,349 @@
+﻿@model HotelListingSystem.ViewModel.ReceiptDetailsViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Update Reservation</title>
+    @Html.Partial("_eHead")
+    <style>
+        .c_half_input {
+            width: 177px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h1 class="col-md-offset-2">Personal Invoice Details</h1>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Personal Details</h5>
+            <hr class="col-md-offset-2" />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReservationBy, "Reservation By User", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.ReservationBy.FullName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReservationBy, "Identification No.", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.ReservationBy.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReservationBy, "Mobile No.", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.ReservationBy.MobileNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+
+                @Html.LabelFor(model => model.ReservationBy, "Email Address", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.ReservationBy.EmailAddress, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="button" onclick="SendEmailNotification('@Model.ReservationBy.EmailAddress', '@Model.ReservationBy.FullName')" value="Send Email" class="btn btn-sm btn-success" />
+                    <input type="submit" value="View Profile" class="btn btn-sm btn-secondary" hidden/>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Reservation Information</h5>
+            <hr class="col-md-offset-2" />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BookedHotel.Name, "Reserved Hotel", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.BookedHotel.Name, new { htmlAttributes = new { @class = "form-control", @required = "required", @disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.BookedHotel.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reservation.CheckInDate, "Check-In Date", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Reservation.CheckInDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @readonly = "readonly", @Id = "CheckInId" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.CheckInDate, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Reservation.CheckOutDate, "Check-Out Date", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Reservation.CheckOutDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @readonly = "readonly", @Id = "CheckOutId" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.CheckOutDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reservation.RoomId, "Room Type", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Room.Name, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "50", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.RoomId, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Reservation.NoOfRooms, "Number Of Room/s", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Reservation.NoOfRooms, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "50", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.NoOfRooms, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reservation.TotalCost, "Room Number", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Reservation.CheckInRoom.RooomNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.TotalCost, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Reservation.TotalCost, "Total Cost", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Reservation.TotalCost, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.TotalCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="submit" value="Update" class="btn btn-sm btn-warning" hidden />
+                    <input type="submit" value="Calncel" class="btn btn-sm btn-danger" hidden />
+                </div>
+            </div>
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Receptionist Details</h5>
+            <hr class="col-md-offset-2" />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Receptionist, "Receptionist Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Receptionist.FullName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Receptionist, "Mobile No.", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Receptionist.MobileNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+
+                @Html.LabelFor(model => model.Receptionist, "Email Address", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Receptionist.EmailAddress, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="button" onclick="SendEmailNotification('@Model.Receptionist.EmailAddress', '@Model.Receptionist.FullName')" value="Send Email" class="btn btn-sm btn-success" />
+                    <input type="submit" value="View Profile" class="btn btn-sm btn-secondary" hidden />
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <h5 class="col-md-offset-2">Payment Details</h5>
+            <hr class="col-md-offset-2" />
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Payment.RefNo, "Reference No.", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.RefNo, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+
+                @Html.LabelFor(model => model.Payment.RefNo, "Invoice No.", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.InvoiceNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Payment.PaymentMethod, "Payment Method", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.PaymentMethod, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+                @Html.LabelFor(model => model.Payment.Amount, "Invoice No.", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.Amount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Payment.HotelUser, "Payment By User", htmlAttributes: new { @class = "control-label col-md-1 col-md-offset-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.HotelUser.FullName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+                @Html.LabelFor(model => model.Payment.Amount, "Approval", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input">
+                    @Html.EditorFor(model => model.Payment.PaymentStatus, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-1" style="margin-left:55px;">
+                </div>
+                @Html.LabelFor(model => model.Reservation.TotalCost, "Amount Payed", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-2 c_half_input" style="margin-left:10px;">
+                    @Html.EditorFor(model => model.Reservation.TotalCost, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Reservation.TotalCost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr class="col-md-offset-2" />
+            <div class="form-group text-right">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="button" value="Send Invoice" onclick="SendInvoiceEmail()" class="btn btn-sm btn-warning" />
+                    <input type="button" value="Print Recipt" class="btn btn-sm btn-danger" />
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")
+
+
+<!-- Include the Yoco SDK in your web page -->
+<script src="https://js.yoco.com/sdk/v1/yoco-sdk-web.js"></script>
+
+<!-- Create a pay button that will open the popup-->
+@*<button id="checkout-button">Pay</button>*@
+
+<script type="text/javascript">
+    var yoco = new window.YocoSDK({
+
+        publicKey: 'pk_test_ed3c54a6gOol69qa7f45',
+    });
+    var checkoutButton = document.querySelector('#cardPaymentButton');
+    checkoutButton.addEventListener('click', function () {
+        debugger
+        yoco.showPopup({
+            amountInCents: 2799,
+            currency: 'ZAR',
+            name: 'Your Store or Product',
+            description: 'Awesome description',
+            callback: function (result) {
+                debugger;
+                // This function returns a token that your server can use to capture a payment
+                if (result.error) {
+                    const errorMessage = result.error.message;
+                    alert("error occured: " + errorMessage);
+                } else {
+                    alert("card successfully tokenised: " + result.id);
+                }
+                // In a real integration - you would now pass this chargeToken back to your
+                // server along with the order/basket that the customer has purchased.
+            }
+        })
+    });
+</script>
+<script>
+    function SendInvoiceEmail() {
+        let email = prompt("Please enter the recipient's email:");
+        /*let messageBody = prompt("Please enter message body:");*/
+        alert("Invoice sent successfully to: " + email);
+    }
+
+
+
+
+    function SendEmailNotification(email, userFullName) {
+        let messageTitle = prompt("Please enter message tittle:");
+        let messageBody = prompt("Please enter message body:");
+
+        $.ajax({
+            url: '@Url.Action("SendEmailNotification", "CustomerQuery")', // Update with your controller and action method names
+            type: 'POST',
+            data: { email: email, userFullName: userFullName, messageBody: messageBody, messageTitle: messageTitle },
+            success: function (data) {
+                if (data) {
+                    alert('Your email has been sent out successfully.');
+                } else {
+                    alert('An error occured while trying to send your email, please try again.');
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert('An error occured while trying to send your email, please try again.');
+            }
+        });
+    }
+</script>
+
+
+<script>
+    function ChangePaymentMethod(paymentMethod) {
+        switch (paymentMethod) {
+            case "a_paypal_payment":
+                $('#cardPaymentButton').hide();
+                $('#paypalPayment').show();
+                break;
+            case "a_yoco_payment_method":
+                $('#cardPaymentButton').show();
+                $('#paypalPayment').hide();
+                break;
+        }
+    }
+
+
+
+    function formatdate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, "0");
+        var day = date.getDate().toString().padStart(2, "0");
+        var formattedDate = year + "-" + month + "-" + day;
+        return formattedDate;
+    }
+
+
+      $(document).ready(function () {
+        document.getElementById("CheckOutId").value = formatdate(new Date('@Model.Reservation.CheckOutDate'));
+        document.getElementById("CheckInId").value = formatdate(new Date('@Model.Reservation.CheckInDate'));
+    });
+
+    $("#RoomId").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+    $("#NoOfRooms").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")',
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error(errorThrown);
+                }
+            })
+    });
+</script>
+

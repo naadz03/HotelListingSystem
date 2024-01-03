@@ -1,0 +1,97 @@
+﻿@model HotelListingSystem.Models.Reservation
+
+@{
+    ViewBag.Title = "Create Reservation";
+}
+
+@using (Html.BeginForm())
+{
+    
+<div>
+    @Html.AntiForgeryToken()
+@Html.HiddenFor(x => x.Id, new { @Name = "Id" })
+<div class="form-horizontal">
+    <h4>Add Ons Reservation</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @foreach (var menu in Model.Dinings)
+        {
+            <input type="checkbox" name="DiningSelectList" value="@menu.Id" />
+            @Html.Raw(string.Format($"{menu.Name} - <b>From</b> {Convert.ToDateTime(menu.StartTime).TimeOfDay} <b>To</b> {Convert.ToDateTime(menu.EndTime).TimeOfDay} - {menu.CostPerPerson.ToString("C")} <b>p/p   </b>"))
+            <br />
+        }
+    </div>
+
+
+</div>
+
+
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Create" class="btn btn-sm btn-primary" />
+    </div>
+</div>
+</div>
+}
+
+<script>
+    $("#RoomId").on('change', function myfunction() {
+
+        // Perform AJAX call to check room availability
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")', // Update with your controller and action method names
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        // Room is available, proceed with reservation
+                        // You can implement the reservation logic here
+                        // e.g., send another AJAX request to the server to create a reservation
+                        // with the selected room ID, check-in and check-out dates, number of rooms, etc.
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        // Room is not available, show error message
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+                }
+            })
+    });
+    $("#NoOfRooms").on('change', function myfunction() {
+        var noOfRooms = $("#NoOfRooms").val();
+        var roomId = $("#RoomId").val();
+        // Perform AJAX call to check room availability
+            $.ajax({
+                url: '@Url.Action("GetTotalCost", "Reservations")', // Update with your controller and action method names
+                type: 'POST',
+                data: { roomId: roomId, noOfRooms: noOfRooms },
+                success: function (data) {
+                    if (data.success) {
+                        // Room is available, proceed with reservation
+                        // You can implement the reservation logic here
+                        // e.g., send another AJAX request to the server to create a reservation
+                        // with the selected room ID, check-in and check-out dates, number of rooms, etc.
+                        $("#TotalCost").val(data.message)
+                    } else {
+                        // Room is not available, show error message
+                        alert(data.message);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    console.error(errorThrown);
+                }
+            })
+    });
+
+
+</script>
+

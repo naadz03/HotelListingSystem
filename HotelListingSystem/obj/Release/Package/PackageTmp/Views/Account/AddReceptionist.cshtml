@@ -1,0 +1,124 @@
+﻿@model HotelListingSystem.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Add Receptionist";
+    Layout = null;
+}
+<head>
+    @Html.Partial("_eHead")
+    <style>
+        hr {
+            width:40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container_body">
+        <main aria-labelledby="title">
+            <h2 id="title">@ViewBag.Title.</h2>
+
+    @using (Html.BeginForm("AddReceptionist", "Account", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Create a Receptionist.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="row">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-3">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-3">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <hr />
+        <br />
+        <div class="row">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.HotelUserType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+
+                        @Html.DropDownList("HotelUserType",
+                       new List<SelectListItem>
+                       {
+                           new SelectListItem { Value = "Business", Text = "Business" },
+                           new SelectListItem { Value = "Individual", Text = "Individual" }
+                       }
+                       , "-- Select Option --", new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.HotelUserType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.HotelId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.DropDownList("HotelsList", (SelectList)ViewBag.HotelsList, "-- Select Option --", new { @class = "form-control", @Name = "HotelId" })
+                        @Html.ValidationMessageFor(model => model.HotelUserType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.IdentificationNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.IdentificationNumber, new { htmlAttributes = new { @class = "form-control", @max = "13" } })
+                        @Html.ValidationMessageFor(model => model.IdentificationNumber, "", new { @class = "text-danger"})
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ConfirmMobileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.ConfirmMobileNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmMobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-md-2 col-md-3">
+                        <input type="submit" value="Add Receptionist" class="btn btn-outline-dark back_btn" />
+                    </div>
+                </div>
+            }
+        </main>
+    </div>
+</body>
+@Html.Partial("_eFooter")
+
+
+
+
+
+
+
+
+
+

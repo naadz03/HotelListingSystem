@@ -1,0 +1,258 @@
+﻿@model IEnumerable<HotelListingSystem.Models.CheckoutHistory>
+@using HotelListingSystem.Models
+@using HotelListingSystem.Helpers
+
+@{
+    ViewBag.Title = "ProductReturns";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">*@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    @Html.Partial("_eHead")
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+            .product img {
+                max-width: 250px;
+                max-height: 250px;
+                margin-bottom: 15px;
+            }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart {
+            margin-top: 20px;
+            width: 80%;
+            margin-left: 10%;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust width as needed */
+        }
+
+        input[type="submit"] {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+
+
+<body style="background-color: #96969633;">
+    <main style="margin-left: 40px; margin-right: 40px; background-color: whitesmoke; padding:40px; border-radius:8px;box-shadow:revert;">
+        <h1>Inventory Returns <button type="button" onclick="window.location.href='/Inventory/Products'" class="add-to-cart btn btn-sm btn-outline-warning" style="margin-left:10px;">Inventory<span class="fa fa-shopping-bag" style="margin:3px;"></span></button></h1>
+        <hr style="width:100%" />
+
+        <div class="cart">
+            <h2>Product CheckIn's <span class="fa fa-pencil" style="margin: 3px; margin-top: 30px;"></span></h2>
+            <ul class="cart-items">
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li class="cart-item">
+                            <span class="product-name" style="width:20%;">@Html.Raw(DisplayHelper.GetProductInfo(item.ProductId).Name)</span>
+                            <span class="product-description" style="width:20%;">@(Convert.ToDateTime(string.Format(item.ChkDateTime.ToString())).ToLongDateString())</span>
+                            <span class="quantity" style="width:10%;">@Html.Raw(item.Quantity) x Item</span>
+                            <span style="width:20%;"><input type="number" class="form-control" id="enteredQuantity_@item.Id" max="@item.Quantity" /></span>
+                            <button class="btn btn-sm btn-outline-primary" type="button"
+                                    onclick="ChkInProduct('@item.Id','@item.Quantity', document.getElementById('enteredQuantity_@item.Id').value)"
+                                    style="width:10%;">
+                                Submit Return
+                                <span class="fa fa-send-o" style="margin:3px;">
+                                </span>
+                            </button>
+                        </li>
+                    }
+                }
+                else
+                {
+            <p class="alert alert-success" style="margin-top:25px; border-radius:8px;">
+                <strong style="font-size:40px; font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif"> You're  all set <span class="fa fa-check-square-o" style="margin:3px;"></span></strong><br />
+                <strong style="font-size:20px; font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif"> You do not have any returns due.</strong>
+                
+            </p>
+                }
+
+            </ul>
+        </div>
+    </main>
+
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+@Html.Partial("_eFooter")
+<script>
+    function ChkInProduct(productId, quantity, enteredQuantity) {
+        //check if the quantity entered <= quantity checked out
+        debugger;
+        if (enteredQuantity == "") {
+            Swal.fire('Warning', `You need to enter quantity of items`, 'warning');
+            return false;
+        }
+        if (enteredQuantity > quantity) {
+            Swal.fire('Warning', `The items entered for return are over ${quantity}.`, 'warning');
+            return false;
+        }
+        //confirm checxkin
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                debugger;
+                //fire the api to check in the items
+                $.ajax({
+                    url: '@Url.Action("ReturnProductApi", "Inventory")',
+                    type: 'GET',
+                    data: { historyId: productId, enteredQuantity: enteredQuantity },
+                    success: function (data) {
+                        debugger;
+                        //fire this on success
+                        if (data) Swal.fire('Confirmed!', 'Product/s checkein successully', 'success').then(() => {
+                            location.reload();
+                        });
+                        //this when api failed 
+                        else Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        //log error to console if it crashed
+                        console.error(errorThrown);
+                    }
+                })
+               
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                //fire this on cancell submision
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+</script>
+
+
+
+
+
+<h2>ProductReturns</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ForHotelId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ByUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChkDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RtnDateTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ForHotelId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ByUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChkDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RtnDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Failure";
+}
+
+<div class="alert alert-danger">
+    <h4>
+        Payment Failed!
+    </h4>
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <br />
+        @ViewBag.Error
+    }
+</div>
+

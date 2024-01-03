@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HotelListingSystem.Models.BusinessPDFStatement>
+@using HotelListingSystem.Models
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>Payments</h1>
+            <p>@Html.ActionLink("Download PDF Statement", "GenerateBusinessPDFStatement", "home", new { businessUserId = AppHelper.CurrentHotelUser().Id }, new { @class = "btn btn-warning back_btn" })</p>
+            <br />
+            <table class="table" width="90%" id="exampleId">
+                <thead>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>HOTEL NAME</th>
+                        <th>PAYMENT DATE</th>
+                        <th>PAYMENT BY</th>
+                        <th>AMOUNT PAID</th>
+                        <th>COMMISSION</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@Html.DisplayFor(modelItem => item.HotelName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PaymentDate)</td>
+                            <td>@Html.Raw(item.PaymentBy)</td>
+                            <td>@Html.Raw(item.Amountpaid.ToString("C"))</td>
+                            <td>@Html.Raw((Convert.ToInt16(item.TravixComission) * 0.02).ToString("C"))</td>
+                            <td>
+                                @Html.ActionLink("View Invoice", "ReceiptDetails", "Payments", new { Id = item.PaymentId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ㅤㅤㅤㅤㅤ</th>
+                        <th>HOTEL NAME</th>
+                        <th>PAYMENT DATE</th>
+                        <th>PAYMENT BY</th>
+                        <th>AMOUNT PAID</th>
+                        <th>COMMISSION</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#exampleId').DataTable();
+    });
+</script>
+
+

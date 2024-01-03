@@ -1,0 +1,92 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Dining>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <p>
+                @Html.ActionLink("Create New", "Create", new {id = 0 }, new { @class= "btn btn-outline-dark back_btn" })
+            </p>
+            @*<table class="table" id="example">*@
+               
+    <p>
+        @Html.ActionLink("Create Meal Type", "Create", "MealTypes", null, htmlAttributes: new { @class = "btn btn-sm btn-primary" }) &nbsp;&nbsp;
+        @Html.ActionLink("Create Dining Table Type", "Create", "DiningTableTypes", null, htmlAttributes: new { @class = "btn btn-sm btn-primary" }) &nbsp;&nbsp;
+        @Html.ActionLink("Create New Dining", "Create", null, htmlAttributes: new { @class = "btn btn-sm btn-primary" }) &nbsp;&nbsp;
+
+    </p>
+    <table class="table">
+        <tr>
+            <th>Dining Table Types</th>
+            <th>Meal Type</th>
+            <th>Meal</th>
+            <th>Cost Per Person</th>
+            <th>Dining Starts</th>
+            <th>Dining Ends</th>
+            <th>No. Of Tables</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiningTableTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MealTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostPerPerson)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfTables)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        <tfoot>
+            <tr>
+                <th>Dining Table Types</th>
+                <th>Meal Type</th>
+                <th>Meal</th>
+                <th>Cost Per Person</th>
+                <th>Dining Starts</th>
+                <th>Dining Ends</th>
+                <th>No. Of Tables</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+        </div>
+    </main>
+</body>
+</html>
+@Html.Partial("_eFooter")

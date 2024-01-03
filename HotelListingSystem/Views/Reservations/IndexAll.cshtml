@@ -1,0 +1,72 @@
+﻿@model IEnumerable<HotelListingSystem.Models.Reservation>
+
+@{
+    ViewBag.Title = "IndexAll";
+}
+
+<h2>All Reservations</h2>
+
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Hotel.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HotelUser.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Room.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckInDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckOutDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoOfRooms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalFees)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hotel.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HotelUser.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Room.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckInDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckOutDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfRooms)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalFees)
+        </td>
+    </tr>
+}
+
+</table>

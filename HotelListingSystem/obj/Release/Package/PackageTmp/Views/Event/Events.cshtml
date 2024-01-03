@@ -1,0 +1,169 @@
+﻿@model IEnumerable<HotelListingSystem.Models.HotelEvent>
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Html.Partial("_eHead")
+    <style>
+        hr {
+            width: 100%;
+        }
+
+        .container1 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .event1 {
+            width: 400px;
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        img1 {
+            width: 100%;
+            height: auto;
+        }
+
+        h31 {
+            margin-top: 10px;
+        }
+
+        p1 {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="container_body">
+            <h1>Entertainment - @ViewBag.HotelName</h1>
+            <br />
+            <input type="button" value="My Purchases" onclick="window.location.href='/event/myevents'" class="btn btn-sm btn-outline-info form-control col-md-1" />
+            <br />
+            <br />
+            <hr />
+            <br />
+            <br />
+            @if (Model.Count() > 0)
+            {
+
+                <div class="container1">
+                    @foreach (var item in Model)
+                    {
+                        <div class="event1">
+                            <img src="@Url.Action("DownloadRoomImageFile", new { Id = item.Id, doc_key_type="e_event_display_image" })" width="380px" height="190px" alt="Event 1">
+                            <br />
+                            <br />
+                            <h5 style="color:darkgrey">from @item.StartDate.ToLongDateString()</h5>
+                            @*<br />*@
+                            <h3><a href="@Url.Action("book", new { id = item.Id })">@item.Name</a> </h3>
+                            <p1>@item.Description</p1>
+                            <br />
+                            <br />
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <h3>No available events for this hotel.</h3>
+            }
+
+
+        </div>
+    </main>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+@Html.Partial("_eFooter")
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+    function DeleteHotelEvent(id) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("DeleteHotelEvent", "event")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data) {
+                            Swal.fire('Confirmed!', 'The event has been deleted successfully.', 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+
+    function ActivateHotelEvent(id, value) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to proceed?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("ActivateHotelEvent", "event")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data) {
+                            Swal.fire('Confirmed!', 'The event has been ' + value + ' successfully.', 'success').then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Cancelled', 'An error has occured while trying to process your request.', 'error').then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error(errorThrown);
+                    }
+                })
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your action has been cancelled.', 'error');
+            }
+        });
+    }
+</script>

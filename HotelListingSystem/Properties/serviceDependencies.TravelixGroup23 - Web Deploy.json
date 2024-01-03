@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql3": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/westeurope/connectors/ConnectionStringsTravelix_C1FC4D1C84",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hotellistingsystemdbservertravelix/databases/HotelListingSystem_dbTravelix",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStringsTravelix"
+    }
+  }
+}
