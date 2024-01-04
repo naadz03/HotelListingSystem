@@ -1,6 +1,5 @@
 # HotelListingSystem
 
-Hotel Listing System
 Welcome to the Hotel Listing System repository! This project, developed as part of my third-year application, is a comprehensive solution designed to revolutionize hotel management and enhance the overall guest experience. The system encompasses a wide range of functionalities catering to hotel owners, staff, and customers alike.
 
 Key Features
