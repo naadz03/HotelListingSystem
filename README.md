@@ -23,6 +23,8 @@ Business owners can generate coupons for discounts, and customers can redeem the
 Hotel owners can view business analytics, and customers can earn and apply reward points for discounted bookings.
 10. 360 Room Tour and Accessibility
 Business owners can enhance hotel listings with immersive 360-degree virtual tours, and an accessibility tool assists customers with disabilities.
+11. Chatbot
+Implemented a chatbot that allows users to be able to communicate and query any issues they have.     
 
 
 ![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/043a649e-7baa-4e98-9e05-ab5729ccca14)
@@ -42,6 +44,26 @@ Business owners can enhance hotel listings with immersive 360-degree virtual tou
 ![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/48a92289-241a-4355-b0e1-49541bf4f0f2)
 
 ![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/261c6c1a-6e10-4f6a-ab68-d98425e58658)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/f3e716a4-d161-48b6-afbd-6216dcff4d2c)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/95d0faf5-e77b-4c15-ac57-324e68b895e3)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/72eece0d-a499-422b-b43f-883f32980f56)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/2508b662-4db3-4160-9d7a-7bada82df8cb)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/3e58abb3-1033-491a-b6b4-633730fdcba0)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/6ffaac92-91bf-44f5-ac44-5f8f0296ac5a)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/6a29a39a-dda0-4ea8-92dc-00531ed46cc5)
+
+![image](https://github.com/naadz03/HotelListingSystem/assets/129620450/bbfd5935-ec92-4dc5-96c3-d16a635a4d96)
+
+
+
+
 
 
 
